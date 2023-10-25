@@ -11,11 +11,12 @@ A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
+  
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 =======
+
 # LibraLink - Revolutionizing the Library Experience
 
 In an era of technological advancements, the **LibraLink** project aims to revolutionize the library experience at NIT Patna. This innovative application seeks to bridge the gap between traditional library services and modern digital convenience. By introducing a phased approach, the project endeavors to provide users with an efficient solution for book tracking, due date management, and resource access. This README outlines the motivation, objectives, and scope of the project, offering insights into how **LibraLink** can reshape the way our library operates and caters to users' needs.
@@ -66,8 +67,7 @@ The project's primary focus is to enhance user interactions, optimize book manag
 ## Further Resources
 
 - [Project Report](https://docs.google.com/document/d/1uUZW3FmxIXVCHnYtjNlyq6qj5n0Owtyw7LWUReKvxFw/edit?usp=sharing): Explore our project's wiki for detailed documentation.
-- [Issue Tracker](#): Report bugs, suggest enhancements, and track the project's progress.
-- [Contributing Guidelines](#): Learn how to contribute to HackSlash's Repositories and be a part of our mission.
+- [Contributing Guidelines](https://github.com/HackSlashNITP/hackslash-contrib/blob/main/CONTRIBUTING.md): Learn how to contribute to HackSlash's Repositories and be a part of our mission.
 
 LibraLink is poised to transform your library experience. Join us on this journey, and together, we'll build a smarter, more user-friendly library system for NIT Patna!
 >>>>>>> 836ce2ed287da5b7b0bbfc72d15ea201a757c9ad
