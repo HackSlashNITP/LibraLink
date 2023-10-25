@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/landingPage.dart';
+import 'package:libralink/splashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Text('Hello!'),
-      ),
+      // home: LandingPage()
+        home: SplashScreen(),
     );
   }
 }
