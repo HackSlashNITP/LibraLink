@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:libralink/landingPage.dart';
-
 void main() {
   runApp(const MyApp());
 }

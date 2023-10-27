@@ -51,4 +51,3 @@ The project's primary focus is to enhance user interactions, optimize book manag
 - [Contributing Guidelines](https://github.com/HackSlashNITP/hackslash-contrib/blob/main/CONTRIBUTING.md): Learn how to contribute to HackSlash's Repositories and be a part of our mission.
 
 LibraLink is poised to transform your library experience. Join us on this journey, and together, we'll build a smarter, more user-friendly library system for NIT Patna!
->>>>>>> 836ce2ed287da5b7b0bbfc72d15ea201a757c9ad
