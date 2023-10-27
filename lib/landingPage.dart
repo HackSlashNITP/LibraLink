@@ -14,37 +14,45 @@ class LandingPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          const Positioned(
-              top: 82,
-              left: 38,
-              child: Text('HOLA!', style: TextStyle(
-                fontSize: 64,
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.1,
+            left: MediaQuery.of(context).size.width * 0.1,
+            child: Text(
+              'HOLA!',
+              style: TextStyle(
+                fontSize: 0.1 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-              ),)),
-          const Positioned(
-              top: 158,
-              left: 38,
-              child: Text('We are here to make your\nlife easy ', style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),)),
-          Positioned(
-            top: 521, // Set the Y coordinate here
-            left: 297, // Set the X coordinate here
-            child: Image.asset(
-              'assets/images/logo.png',
-              height: 58,
-              width: 67,
+              ),
             ),
           ),
           Positioned(
-            top: 632, // Set the Y coordinate for the button
-            left: 70, // Set the X coordinate for the button
+            top: MediaQuery.of(context).size.height * 0.19,
+            left: MediaQuery.of(context).size.width * 0.1,
+            child: Text(
+              'We are here to make your\nlife easy ',
+              style: TextStyle(
+                fontSize: 0.04 * MediaQuery.of(context).size.width,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.62,
+            left: MediaQuery.of(context).size.width * 0.57,
+            child: Image.asset(
+              'assets/images/logo.png',
+              height: 0.07 * MediaQuery.of(context).size.width,
+              width: 0.08 * MediaQuery.of(context).size.width,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.73,
+            left: MediaQuery.of(context).size.width * 0.14,
             child: Container(
-              width: 285,
-              height: 52,
+              width: 0.75 * MediaQuery.of(context).size.width,
+              height: 0.08 * MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Color(0xFF1E293B),
                 border: Border.all(color: Colors.white70),
@@ -57,13 +65,13 @@ class LandingPage extends StatelessWidget {
                     // Add your onPressed action here
                   },
                   borderRadius: BorderRadius.circular(20),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Sign In',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                        fontSize: 0.04 * MediaQuery.of(context).size.width,
                       ),
                     ),
                   ),
@@ -72,11 +80,11 @@ class LandingPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 701, // Set the Y coordinate for the button
-            left: 70, // Set the X coordinate for the button
+            top: MediaQuery.of(context).size.height * 0.83,
+            left: MediaQuery.of(context).size.width * 0.14,
             child: Container(
-              width: 285,
-              height: 52,
+              width: 0.75 * MediaQuery.of(context).size.width,
+              height: 0.08 * MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.white70),
@@ -89,13 +97,13 @@ class LandingPage extends StatelessWidget {
                     // Add your onPressed action here
                   },
                   borderRadius: BorderRadius.circular(20),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Sign Up',
                       style: TextStyle(
                         color: Color(0xFF1E293B),
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600
+                        fontSize: 0.04 * MediaQuery.of(context).size.width,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

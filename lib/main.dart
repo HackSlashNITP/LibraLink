@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:libralink/landingPage.dart';
-import 'package:libralink/splashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // home: LandingPage()
-        home: SplashScreen(),
+    return const MaterialApp(
+      home: LandingPage(),
     );
   }
 }
