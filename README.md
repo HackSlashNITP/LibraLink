@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-# libralink
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-<<<<<<< HEAD
-  
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-=======
->>>>>>> fbc117f (Update README.md)
-
 # LibraLink - Revolutionizing the Library Experience
 
 In an era of technological advancements, the **LibraLink** project aims to revolutionize the library experience at NIT Patna. This innovative application seeks to bridge the gap between traditional library services and modern digital convenience. By introducing a phased approach, the project endeavors to provide users with an efficient solution for book tracking, due date management, and resource access. This README outlines the motivation, objectives, and scope of the project, offering insights into how **LibraLink** can reshape the way our library operates and caters to users' needs.
