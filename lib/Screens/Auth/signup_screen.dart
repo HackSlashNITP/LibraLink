@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/Screens/Auth/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -85,10 +86,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 controller: nameController,
                                 decoration: InputDecoration(
                                   labelText: ' Username ',
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30)),
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 8, 1, 21)),
+
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.black87),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF0A043C),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  // border: OutlineInputBorder(
+                                  //     borderRadius: BorderRadius.circular(30)),
                                 ),
                               ),
                             ),
@@ -102,10 +115,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 controller: emailController,
                                 decoration: InputDecoration(
                                   labelText: 'Nitp Official email ',
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30)),
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.black87),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF0A043C),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
                               ),
                             ),
@@ -117,12 +139,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               height: 52,
                               child: TextField(
                                 controller: passwordController,
+                                obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30)),
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.black87),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF0A043C),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
                               ),
                             ),
@@ -137,8 +169,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: ' Confirm Password ',
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30)),
+                                  labelStyle: TextStyle(
+                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.black87),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF0A043C),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
                               ),
                             ),
@@ -178,11 +221,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     height: 1.0,
                                   ),
                                 ),
-                                const Text(
-                                  'Sign in',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => LoginScreen()));
+                                  },
+                                  child: const Text(
+                                    'Sign in',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 Expanded(
