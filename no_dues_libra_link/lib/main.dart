@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                 "images/tick1.json",
                 height: 300,
                 width: 250,
-                repeat: true,
+                repeat: false,
               ),
               SizedBox(height: 13),
               Text(
