@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:libralink/landingPage.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -9,10 +9,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Text('Hello!'),
-      ),
+    return const MaterialApp(
+      home: LandingPage(),
     );
   }
 }
