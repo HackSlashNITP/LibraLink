@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_native_splash:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -59,9 +60,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -88,3 +89,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+    # Background color of splash screen
+    color: "#0F172A"
+    # Image that you want to show
+    image: assets/images/logo.png
+    # Sizing of image
+    fill: true
+    # Splash Image to show in dark mode (Optional)
+#    image_dark: assets/splash_dark.png
+#    # Background color of dark mode (Optional)
+#    color_dark: "#000000"
