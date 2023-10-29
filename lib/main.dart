@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'noduesScreen.dart';
+import 'package:libralink/landingPage.dart';
+import 'noDuesScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: DuesScreen()),
+      home: LandingPage(),
     );
   }
 }
