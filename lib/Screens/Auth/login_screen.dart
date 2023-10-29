@@ -30,13 +30,17 @@ class _LoginScreenState extends State<LoginScreen> {
           fit: StackFit.passthrough,
           children: [
             Container(
-              width: 510,
-              height: 790,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              // width: 510,
+              // height: 790,
               color: Colors.white,
             ),
             Container(
-                height: 350,
-                width: 410,
+                // height: 350,
+                // width: 410,
+                height: MediaQuery.of(context).size.height * .43,
+                width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/bg.png'),
@@ -51,8 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
               bottom: 0,
               left: 0,
               child: SizedBox(
-                height: 520,
-                width: 385,
+                height: MediaQuery.of(context).size.height * .63,
+                width: MediaQuery.of(context).size.width,
+                // height: 520,
+                // width: 385,
                 child: Card(
                     surfaceTintColor: Colors.white,
                     shape: const RoundedRectangleBorder(
@@ -85,15 +91,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: emailController,
                                 decoration: InputDecoration(
                                   labelText: 'Email / Username ',
-                                  labelStyle: TextStyle(
+                                  labelStyle: const TextStyle(
                                       color: Color.fromARGB(255, 8, 1, 21)),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: Colors.black87),
+                                        const BorderSide(color: Colors.black87),
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0xFF0A043C),
                                     ),
                                     borderRadius: BorderRadius.circular(30),
@@ -112,15 +118,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: 'Password ',
-                                  labelStyle: TextStyle(
+                                  labelStyle: const TextStyle(
                                       color: Color.fromARGB(255, 8, 1, 21)),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: Colors.black87),
+                                        const BorderSide(color: Colors.black87),
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Color(0xFF0A043C),
                                     ),
                                     borderRadius: BorderRadius.circular(30),
