@@ -44,4 +44,8 @@ app.*.map.json
 /android/app/release
 /README.md
 
+<<<<<<< HEAD
 .vscode
+=======
+/.vscode/
+>>>>>>> origin/auth_Screens
