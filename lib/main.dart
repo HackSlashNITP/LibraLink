@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/Screens/Add_books.dart';
+import 'package:libralink/Screens/notification.dart';
 import 'package:libralink/landingPage.dart';
-import 'noDuesScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: LandingPage(),
     );
   }
