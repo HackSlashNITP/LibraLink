@@ -7,18 +7,19 @@ class notification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
           leading: Icon(
             Icons.arrow_back,
             color: Colors.black,
-            size: 35,
+            size: 25,
           ),
           title: Text(
             "Notification",
             style: TextStyle(
-                color: Colors.black, fontSize: 30, fontWeight: FontWeight.w400),
+                color: Colors.black, fontSize: 25, fontWeight: FontWeight.w400),
           ),
         ),
         body: Column(

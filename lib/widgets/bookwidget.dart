@@ -16,7 +16,7 @@ class _bookwidgetState extends State<bookwidget> {
     return Padding(
       padding: EdgeInsets.all(5),
       child: Card(
-        elevation: 0.5,
+        elevation: 0,
         child: ListTile(
           leading: Icon(
             Icons.notifications_active,
