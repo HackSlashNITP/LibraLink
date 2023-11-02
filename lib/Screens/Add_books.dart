@@ -9,20 +9,20 @@ class Addbook extends StatefulWidget {
 
 class _AddbookState extends State<Addbook> {
   final idController = TextEditingController();
-  final dateController = TextEditingController();
+  final issueController = TextEditingController();
   final nameController = TextEditingController();
-  final cpasswordController = TextEditingController();
+  final duecontroller = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     idController.dispose();
-    dateController.dispose();
+    issueController.dispose();
     nameController.dispose();
-    cpasswordController.dispose();
+    duecontroller.dispose();
   }
 
-  Future<void> selectdate() async {
+  Future<void> issuedate() async {
     DateTime? picked = await showDatePicker(
         context: this.context,
         initialDate: DateTime.now(),
@@ -31,7 +31,21 @@ class _AddbookState extends State<Addbook> {
 
     if (picked != null) {
       setState(() {
-        dateController.text = picked.toString().split(' ')[0];
+        issueController.text = picked.toString().split(' ')[0];
+      });
+    }
+  }
+
+  Future<void> duetdate() async {
+    DateTime? picked = await showDatePicker(
+        context: this.context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (picked != null) {
+      setState(() {
+        duecontroller.text = picked.toString().split(' ')[0];
       });
     }
   }
@@ -63,7 +77,6 @@ class _AddbookState extends State<Addbook> {
               decoration: InputDecoration(
                 labelText: ' Book Name ',
                 labelStyle: TextStyle(color: Color.fromARGB(255, 8, 1, 21)),
-
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.black87),
                   borderRadius: BorderRadius.circular(30),
@@ -74,8 +87,6 @@ class _AddbookState extends State<Addbook> {
                   ),
                   borderRadius: BorderRadius.circular(30),
                 ),
-                // border: OutlineInputBorder(
-                //     borderRadius: BorderRadius.circular(30)),
               ),
             ),
           ),
@@ -103,7 +114,7 @@ class _AddbookState extends State<Addbook> {
             padding: EdgeInsets.only(bottom: 30),
             child: TextField(
               readOnly: true,
-              controller: dateController,
+              controller: issueController,
               decoration: InputDecoration(
                 filled: true,
                 prefixIcon: Icon(Icons.calendar_today),
@@ -121,34 +132,33 @@ class _AddbookState extends State<Addbook> {
                 ),
               ),
               onTap: () {
-                selectdate();
+                issuedate();
               },
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(bottom: 30),
-          //   child: TextField(
-          //     controller: cpasswordController,
-          //     obscureText: true,
-          //     decoration: InputDecoration(
-          //       labelText: ' Confirm Password ',
-          //       labelStyle: TextStyle(color: Color.fromARGB(255, 8, 1, 21)),
-          //       enabledBorder: OutlineInputBorder(
-          //         borderSide: BorderSide(color: Colors.black87),
-          //         borderRadius: BorderRadius.circular(30),
-          //       ),
-          //       focusedBorder: OutlineInputBorder(
-          //         borderSide: BorderSide(
-          //           color: Color(0xFF0A043C),
-          //         ),
-          //         borderRadius: BorderRadius.circular(30),
-          //       ),
-          //     ),
-          //     onTap: () {
-          //       selectdate();
-          //     },
-          //   ),
-          // ),
+          TextField(
+            readOnly: true,
+            controller: duecontroller,
+            decoration: InputDecoration(
+              filled: true,
+              prefixIcon: Icon(Icons.calendar_today),
+              labelText: 'Submission Date',
+              labelStyle: TextStyle(color: Color.fromARGB(255, 8, 1, 21)),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black87),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xFF0A043C),
+                ),
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            onTap: () {
+              duetdate();
+            },
+          ),
           Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
