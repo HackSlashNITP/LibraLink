@@ -5,6 +5,7 @@ import 'package:libralink/Screens/notification.dart';
 import 'package:libralink/duesScreen.dart';
 import 'package:libralink/landingPage.dart';
 import 'package:libralink/noDuesScreen.dart';
+import 'package:libralink/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Addbook(),
+      home: ProfilePage(),
     );
   }
 }
