@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: 0.8.9
   flutter_native_splash:
 
 
@@ -63,6 +64,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/avatar.png
+    - assets/plus.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -101,3 +104,10 @@ flutter_native_splash:
 #    image_dark: assets/splash_dark.png
 #    # Background color of dark mode (Optional)
 #    color_dark: "#000000"
+permissions:
+  android:
+    - android.permission.CAMERA
+    - android.permission.READ_EXTERNAL_STORAGE
+  ios:
+    - NSCameraUsageDescription: We need to access your camera for image picking.
+    - NSPhotoLibraryUsageDescription: We need to access your photo library for image picking.
