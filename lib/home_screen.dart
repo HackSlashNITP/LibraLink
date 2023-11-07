@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/routes/mapping.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,14 +42,24 @@ class _HomePageState extends State<HomePage> {
                         //mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Image.asset('assets/images/Group 34.png')),
-                          SizedBox(
-                              height: 30,
-                              width: 33,
-                              child: Image.asset('assets/images/Vector.png')),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, MyRoutes.profileRoute);
+                            },
+                            child: SizedBox(
+                                height: 40,
+                                width: 40,
+                                child: Image.asset('assets/images/Group 34.png')),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, MyRoutes.notifRoute);
+                            },
+                            child: Container(
+                                height: 30,
+                                width: 33,
+                                child: Image.asset('assets/images/Vector.png')),
+                          ),
                         ],
                       ),
                     )),
@@ -152,7 +163,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 width: 50,
                                 child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(context, "/issued_book.dart");
+                                    },
                                     child:
                                         Image.asset('assets/images/book.png'))),
                             Text('Issued'),
@@ -165,7 +178,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 width: 50,
                                 child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+
+                                    },
                                     child: Image.asset(
                                         'assets/images/locateBook.png'))),
                             Text('Locate'),
@@ -178,7 +193,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 width: 50,
                                 child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(context, "/duesScreen.dart");
+                                    },
                                     child: Image.asset(
                                         'assets/images/libdues.png'))),
                             Text('Library'),

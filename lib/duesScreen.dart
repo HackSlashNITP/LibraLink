@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/routes/mapping.dart';
 
 class DuesScreen extends StatefulWidget {
   const DuesScreen({super.key});
@@ -55,7 +56,9 @@ class _DuesScreenState extends State<DuesScreen> {
                 color: Colors.black,
                 size: 30,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, MyRoutes.notifRoute);
+              },
             )
           ],
         ),
