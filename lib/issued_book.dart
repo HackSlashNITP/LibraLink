@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/routes/mapping.dart';
 
 class IssuedBookPage extends StatefulWidget {
   const IssuedBookPage({super.key});
@@ -27,7 +28,9 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                   child: Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           icon: const Icon(
                             Icons.arrow_back,
                             size: 30,
@@ -46,7 +49,9 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                 Padding(
                   padding: EdgeInsets.only(right: mq.width * .02),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, MyRoutes.notifRoute);
+                      },
                       icon: const Icon(
                         Icons.notifications_none_outlined,
                         size: 40,

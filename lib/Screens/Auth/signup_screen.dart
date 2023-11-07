@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
 
+import '../../routes/mapping.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -210,7 +212,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 20,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, MyRoutes.homeRoute);
+                              },
                             ),
                           ),
                           const SizedBox(

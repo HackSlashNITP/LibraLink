@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libralink/routes/mapping.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -63,6 +64,7 @@ class LandingPage extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     // Add your onPressed action here
+                    Navigator.pushNamed(context, MyRoutes.signinRoute);
                   },
                   borderRadius: BorderRadius.circular(20),
                   child: Center(
@@ -95,6 +97,7 @@ class LandingPage extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     // Add your onPressed action here
+                    Navigator.pushNamed(context, MyRoutes.signupRoute);
                   },
                   borderRadius: BorderRadius.circular(20),
                   child: Center(

@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:libralink/Screens/Auth/signup_screen.dart';
 
+import '../../routes/mapping.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
@@ -153,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 20,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, MyRoutes.homeRoute);
+                              },
                             ),
                           ),
                           const SizedBox(
