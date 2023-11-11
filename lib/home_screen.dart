@@ -97,6 +97,7 @@ class _HomePageState extends State<HomePage> {
                     height: 40,
                     child: TextField(
                       controller: myController,
+                      autofocus: false,
                       //autofocus: false,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
