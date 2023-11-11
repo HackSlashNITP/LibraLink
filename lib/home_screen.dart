@@ -44,12 +44,14 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, MyRoutes.profileRoute);
+                              Navigator.pushNamed(
+                                  context, MyRoutes.profileRoute);
                             },
                             child: SizedBox(
                                 height: 40,
                                 width: 40,
-                                child: Image.asset('assets/images/Group 34.png')),
+                                child:
+                                    Image.asset('assets/images/Group 34.png')),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -95,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     height: 40,
                     child: TextField(
                       controller: myController,
-                      autofocus: true,
+                      autofocus: false,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(5),
@@ -164,7 +166,8 @@ class _HomePageState extends State<HomePage> {
                                 width: 50,
                                 child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/issued_book.dart");
+                                      Navigator.pushNamed(
+                                          context, "/issued_book.dart");
                                     },
                                     child:
                                         Image.asset('assets/images/book.png'))),
@@ -178,9 +181,7 @@ class _HomePageState extends State<HomePage> {
                                 height: 40,
                                 width: 50,
                                 child: GestureDetector(
-                                    onTap: () {
-
-                                    },
+                                    onTap: () {},
                                     child: Image.asset(
                                         'assets/images/locateBook.png'))),
                             Text('Locate'),
@@ -194,7 +195,8 @@ class _HomePageState extends State<HomePage> {
                                 width: 50,
                                 child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, "/duesScreen.dart");
+                                      Navigator.pushNamed(
+                                          context, "/duesScreen.dart");
                                     },
                                     child: Image.asset(
                                         'assets/images/libdues.png'))),
