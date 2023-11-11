@@ -98,11 +98,11 @@ class _HomePageState extends State<HomePage> {
                     child: TextField(
                       controller: myController,
                       autofocus: false,
+                      //autofocus: false,
                       textAlign: TextAlign.left,
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(5),
                           isCollapsed: false,
-                          //s̱sisDense: true,
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(10.0),
@@ -226,8 +226,11 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     children: [
                       Text(
-                        'Deadlines  ',
+                        'Deadlines',
                         style: TextStyle(fontSize: 25),
+                      ),
+                      SizedBox(
+                        width: screenSize.width * .03,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -239,15 +242,17 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 533, left: 28),
                   child: Icon(Icons.circle,
-                      color: const Color.fromARGB(255, 173, 171, 171)),
+                      color: Color.fromARGB(255, 85, 85, 85)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 608, left: 28),
-                  child: Image.asset('assets/images/Ellipse 7.png'),
+                  child: Icon(Icons.circle_outlined,
+                      color: Color.fromARGB(255, 35, 35, 35)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 685, left: 28),
-                  child: Image.asset('assets/images/Ellipse 7.png'),
+                  child: Icon(Icons.circle_outlined,
+                      color: Color.fromARGB(255, 0, 0, 0)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 554, left: 29),
@@ -266,18 +271,17 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 535, left: 65),
                   child: Container(
-                    width: 150,
-                    height: 100,
+                    width: screenSize.width * .35,
+                    height: screenSize.height * .1,
                     child: Column(
                       children: [
-                        Text('12-November-2023          '),
-                        SizedBox(
-                          width: 10,
-                          height: 7,
-                        ),
-                        Text(
-                          'The Subtle art of not giving a Fuck',
-                          style: TextStyle(fontSize: 10),
+                        Text('12-November-2023'),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 0, left: 10),
+                          child: Text(
+                            'The Subtle art of not giving a Fuck',
+                            style: TextStyle(fontSize: 10),
+                          ),
                         ),
                       ],
                     ),
@@ -286,17 +290,13 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 610, left: 65),
                   child: Container(
-                    width: 150,
-                    height: 100,
+                    width: screenSize.width * .35,
+                    height: screenSize.height * .1,
                     child: Column(
                       children: [
-                        Text('20-November-2023        '),
-                        SizedBox(
-                          width: 10,
-                          height: 7,
-                        ),
+                        Text('20-November-2023'),
                         Padding(
-                          padding: const EdgeInsets.only(top: 0, right: 60),
+                          padding: const EdgeInsets.only(top: 0, right: 40),
                           child: Text(
                             'Rich Dad Poor Dad',
                             style: TextStyle(fontSize: 10),
@@ -309,17 +309,13 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 680, left: 65),
                   child: Container(
-                    width: 150,
-                    height: 100,
+                    width: screenSize.width * .35,
+                    height: screenSize.height * .1,
                     child: Column(
                       children: [
-                        Text('29-November-2023        '),
-                        SizedBox(
-                          width: 10,
-                          height: 7,
-                        ),
+                        Text('29-November-2023'),
                         Padding(
-                          padding: const EdgeInsets.only(top: 0, right: 60),
+                          padding: const EdgeInsets.only(top: 0, right: 40),
                           child: Text(
                             'Think and grow rich',
                             style: TextStyle(fontSize: 10),
