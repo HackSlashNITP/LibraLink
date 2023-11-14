@@ -19,8 +19,8 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  
-  sdk: ">=2.19.5 <3.0.0"
+
+  sdk: ">=3.0.0 <4.0.0"
 
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -34,8 +34,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_native_splash: null
-  image_picker: 0.8.9
-  lottie: ^2.7.0
+  image_picker: ^1.0.4
+  lottie: ^2.6.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -43,7 +43,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
