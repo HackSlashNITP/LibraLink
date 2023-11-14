@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           fit: StackFit.passthrough,
           children: [
             Container(
-              // width: 510,
+              // width: 400,
               // height: 790,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -62,18 +62,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )),
             Positioned(
               bottom: 0,
-              left: 0,
-              child: SizedBox(
+              // left: 0,
+              // right: 0,
+              child: Container(
                 // height: 570,
-                // width: 410,
+                // width: 450,
                 height: MediaQuery.of(context).size.height * .73,
                 width: MediaQuery.of(context).size.width,
                 child: Card(
+                    margin: EdgeInsets.zero,
                     surfaceTintColor: Colors.white,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
+                            topLeft: Radius.circular(45),
+                            topRight: Radius.circular(45))),
                     child: SizedBox(
                       width: double.infinity,
                       height: 500,
