@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
                 // height: 320,
                 // width: 410,
-                height: MediaQuery.of(context).size.height * .43,
+                height: MediaQuery.of(context).size.height * .32,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -50,9 +50,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 300, bottom: 220),
-                  child: Image(image: AssetImage('assets/images/logo.png')),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * .65,
+                    bottom: MediaQuery.of(context).size.width * .35,
+                    top: MediaQuery.of(context).size.width * .1,
+                  ),
+                  child: Image(
+                    image: AssetImage('assets/images/logo.png'),
+                  ),
                 )),
             Positioned(
               bottom: 0,
@@ -66,8 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     surfaceTintColor: Colors.white,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(45),
-                            topRight: Radius.circular(45))),
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
                     child: SizedBox(
                       width: double.infinity,
                       height: 500,
@@ -94,8 +100,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 controller: nameController,
                                 decoration: InputDecoration(
                                   labelText: ' Username ',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  labelStyle:
+                                      TextStyle(color: Colors.grey.shade600),
 
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -123,8 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 controller: emailController,
                                 decoration: InputDecoration(
                                   labelText: 'Nitp Official email ',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  labelStyle:
+                                      TextStyle(color: Colors.grey.shade600),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
                                         const BorderSide(color: Colors.black87),
@@ -150,8 +156,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  labelStyle:
+                                      TextStyle(color: Colors.grey.shade600),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
                                         const BorderSide(color: Colors.black87),
@@ -177,8 +183,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: ' Confirm Password ',
-                                  labelStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 8, 1, 21)),
+                                  labelStyle:
+                                      TextStyle(color: Colors.grey.shade600),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
                                         const BorderSide(color: Colors.black87),
@@ -213,7 +219,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, MyRoutes.homeRoute);
+                                Navigator.pushNamed(
+                                    context, MyRoutes.homeRoute);
                               },
                             ),
                           ),
@@ -243,7 +250,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     'Sign in',
                                     style: TextStyle(
                                       fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
