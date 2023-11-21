@@ -17,124 +17,112 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
 
     return SafeArea(
         child: Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(top: mq.height * .015,),
-        child: Column(
-          children: [
-            SizedBox(
-              height: mq.height * .02,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          size: 26,
-                        )),
-                    SizedBox(
-                      width: mq.width * .01,
-                    ),
-                    const Text(
-                      'Issued Book',
-                      style: TextStyle(
-                          fontSize: 26, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+            body: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  top: mq.height * .015,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: mq.width * .02),
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, MyRoutes.notifRoute);
-                      },
-                      icon: const Icon(
-                        Icons.notifications_none_outlined,
-                        size:26,
-                      )),
-                )
-              ],
-            ),
-            SizedBox(
-              height: mq.height * .04,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: mq.width * .030,
-                  right: mq.width * .05,
-                  bottom: mq.height * .01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    'Issued : ',
-                    style: TextStyle(fontSize: 25),
+                child: Column(children: [
+                  SizedBox(
+                    height: mq.height * .02,
                   ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 2, top: 15),
-                      color: Colors.black,
-                      height: 1.0,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 26,
+                              )),
+                          SizedBox(
+                            width: mq.width * .01,
+                          ),
+                          const Text(
+                            'Issued Book',
+                            style: TextStyle(
+                                fontSize: 26, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: mq.width * .02),
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, MyRoutes.notifRoute);
+                            },
+                            icon: const Icon(
+                              Icons.notifications_none_outlined,
+                              size: 26,
+                            )),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: mq.height * .04,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: mq.width * .030,
+                        right: mq.width * .05,
+                        bottom: mq.height * .01),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text(
+                          'Issued : ',
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 2, top: 15),
+                            color: Colors.black,
+                            height: 1.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-    SizedBox(
-      height:MediaQuery.of(context).size.height*0.001,
-    ),
-    SizedBox(
-
-    width: MediaQuery.of(context).size.width*0.9,
-    height: MediaQuery.of(context).size.height*0.45 ,
-
-
-
-    child: IssuedBookPg(
-
-
-
-    ),
-    ),
-            SizedBox(height:MediaQuery.of(context).size.height*0.03),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: mq.width * .030,
-                  right: mq.width * .05,
-                  bottom: mq.height * .01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text(
-                    'Previous : ',
-                    style: TextStyle(fontSize: 25),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.001,
                   ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 2, top: 15),
-                      color: Colors.black,
-                      height: 1.0,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    child: IssuedBookPg(),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: mq.width * .030,
+                        right: mq.width * .05,
+                        bottom: mq.height * .01),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text(
+                          'Previous : ',
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 2, top: 15),
+                            color: Colors.black,
+                            height: 1.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.90,
-              height: MediaQuery.of(context).size.height*0.3,
-              child:
-                  PreviousBookPage(),
-
-
-
-            ),
-
-    ]))));
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: PreviousBookPage(),
+                  ),
+                ]))));
   }
 }
 
