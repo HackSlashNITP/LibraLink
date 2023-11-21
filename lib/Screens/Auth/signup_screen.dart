@@ -230,7 +230,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: 60,
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 10, right: 40),
+                            padding: const EdgeInsets.only(left: 30, right: 30),
                             child: Row(
                               children: <Widget>[
                                 Expanded(
