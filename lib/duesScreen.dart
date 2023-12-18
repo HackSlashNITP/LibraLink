@@ -85,7 +85,7 @@ class _DuesScreenState extends State<DuesScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Text(
-                    'Rs. ${calculateLateFee(books, DateTime.now()).toStringAsFixed(2)}',
+                    '₹${calculateLateFee(books, DateTime.now()).toStringAsFixed(2)}',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
