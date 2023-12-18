@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       MyRoutes.pDuesRoute: (context) => DuesScreen(),
       MyRoutes.nDuesRoute: (context) => noDues(),
       MyRoutes.notifRoute: (context) => notification(),
-      MyRoutes.profileRoute: (context) => ProfilePage(),
+      MyRoutes.profileRoute: (context) => ProfilePage(),  
       MyRoutes.signinRoute: (context) => LoginScreen(),
       MyRoutes.signupRoute: (context) => SignUpScreen(),
 
