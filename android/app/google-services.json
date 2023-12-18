@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "449550678117",
+    "project_id": "libralink-7c0e5",
+    "storage_bucket": "libralink-7c0e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449550678117:android:56448c7c638a715c4d6e8c",
+        "android_client_info": {
+          "package_name": "com.company.libralink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4wQigwfiSYfEpC6RMdQLAAldBdYTqqbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449550678117:android:bc0ca3ee3c924a204d6e8c",
+        "android_client_info": {
+          "package_name": "com.example.libralink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4wQigwfiSYfEpC6RMdQLAAldBdYTqqbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
