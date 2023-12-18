@@ -71,6 +71,18 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
+  @override
+  void dispose(){
+    super.dispose();
+    fullNameController.dispose();
+    usernameController.dispose();
+    contactNumberController.dispose();
+    emailAddressController.dispose();
+    passwordController.dispose();
+    idCardController.dispose();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -265,14 +277,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  @override
-  void dispose() {
-    fullNameController.dispose();
-    usernameController.dispose();
-    contactNumberController.dispose();
-    emailAddressController.dispose();
-    passwordController.dispose();
-    idCardController.dispose();
-    super.dispose();
-  }
 }
