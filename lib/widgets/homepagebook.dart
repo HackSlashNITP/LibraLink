@@ -66,8 +66,8 @@ class MyListItem extends StatelessWidget {
             alignment: Alignment.centerLeft,
             // color: Colors.amber,
             padding: EdgeInsets.only(top: 10),
-            width: screenSize.width * 0.3,
-            height: screenSize.height * 0.07,
+            // width: screenSize.width * 0.3,
+            height: screenSize.height * 0.09,
             child: Column(
               children: [
                 Padding(
