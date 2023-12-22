@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class IssuedBookModel {
   final String bookId;
-  final String IssuedDate;
-  String ReturnDate;
+  final String issuedDate;
+  String returnDate;
   final bool isSubmitted;
   final String bookName;
   final String authorName;
@@ -12,8 +12,8 @@ class IssuedBookModel {
 
   IssuedBookModel({
     required this.bookId,
-    required this.IssuedDate,
-    required this.ReturnDate,
+    required this.issuedDate,
+    required this.returnDate,
     required this.isSubmitted,
     required this.bookName,
     required this.authorName,
@@ -27,19 +27,19 @@ class ReIssueContent extends StatefulWidget {
 }
 
 class _ReIssueContentState extends State<ReIssueContent> {
-  late Stream<QuerySnapshot> userStream;
+  late Stream<DocumentSnapshot> userStream;
 
   @override
   void initState() {
     super.initState();
-    userStream = FirebaseFirestore.instance.collection("UserData").snapshots();
+    userStream = FirebaseFirestore.instance.collection("UserData").doc("1").snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<DocumentSnapshot>(
       stream: userStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError || !snapshot.hasData) {
           return Text('Something went wrong');
         }
@@ -52,34 +52,13 @@ class _ReIssueContentState extends State<ReIssueContent> {
           );
         }
 
-        final List<Map<String, dynamic>> docData = snapshot.data!.docs
-            .map((e) => e.data() as Map<String, dynamic>)
-            .toList();
+        final Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
 
-        List<IssuedBookModel> booksinUser = [];
-        final dynamic data = docData.isNotEmpty ? docData[0] : null;
-        final List? issuedBooks = data != null ? data["IssuedBook"] : null;
-
-        final String activeDue = data != null && data['Dues'] != null
+        String activeDue = data != null && data['Dues'] != null
             ? data['Dues'].toString()
-            : 'Some Value'; // Fetch activeDue
+            : '00'; // Fetch activeDue
 
-        if (issuedBooks != null) {
-          for (int i = 0; i < issuedBooks.length; i++) {
-            booksinUser.add(
-              IssuedBookModel(
-                bookId: issuedBooks[i]['bookId'].toString() ?? '',
-                IssuedDate: issuedBooks[i]['IssuedDate'].toString() ?? '',
-                ReturnDate: issuedBooks[i]['ReturnDate'].toString() ?? '',
-                isSubmitted: issuedBooks[i]['isSubmitted'] ?? false,
-                bookName: issuedBooks[i]['bookName'].toString() ?? '',
-                authorName: issuedBooks[i]['authorName'].toString() ?? '',
-                activeDue:
-                    activeDue, // Set activeDue for all books to the same value from 'Dues'
-              ),
-            );
-          }
-        }
+        final dynamic issuedBooks = data != null ? data["IssuedBook"] : null;
 
         return Scaffold(
           appBar: AppBar(
@@ -107,39 +86,30 @@ class _ReIssueContentState extends State<ReIssueContent> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.3,
                       height: MediaQuery.of(context).size.width * 0.3,
-
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 120, 53, 6),
                         borderRadius: BorderRadius.circular(15),
-                      ), // Change the color to blue
+                      ),
                     ),
                     SizedBox(height: 20),
                     Center(
                       child: Text(
-                        booksinUser.isNotEmpty
-                            ? booksinUser[0].bookName
-                            : 'Book Name',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        'Book Name: ${issuedBooks != null ? issuedBooks['0']['bookName'] : 'N/A'}',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Center(
                       child: Text(
-                        booksinUser.isNotEmpty
-                            ? booksinUser[0].authorName
-                            : 'Author Name',
+                        'Author Name: ${issuedBooks != null ? issuedBooks['0']['authorName'] : 'N/A'}',
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
                     SizedBox(height: 40),
-                    // Spacer(flex: 2,),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      height:
-                          MediaQuery.of(context).size.width * 0.8 * 310 / 315,
-                      margin: EdgeInsets.symmetric(horizontal: 40),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      height: MediaQuery.of(context).size.width * 0.8 * 310 / 315,
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(20),
@@ -153,28 +123,26 @@ class _ReIssueContentState extends State<ReIssueContent> {
                             children: [
                               Text(
                                 'Issue Date:',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                               ),
-                              Text(
-                                '${booksinUser.isNotEmpty ? booksinUser[0].IssuedDate : 'Some Date Value'}',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
-                              ),
+                                  Text(
+                                '${issuedBooks != null ? issuedBooks['0']['IssuedDate'] : 'Not Available'}',
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                              )
+                             ,
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                               Text(
                                 'Return Date:',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
-                              ),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                              )
+                          ,
                               Text(
-                                '${booksinUser.isNotEmpty ? booksinUser[0].ReturnDate : 'Some Date Value'}',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                                '${issuedBooks != null ? issuedBooks['0']['ReturnDate'] : 'Not Available'}',
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -183,17 +151,14 @@ class _ReIssueContentState extends State<ReIssueContent> {
                             children: [
                               Text(
                                 'Active Due:',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                               ),
                               Text(
-                                '${booksinUser.isNotEmpty ? booksinUser[0].activeDue : 'Some Value'}',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                                '$activeDue',
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
-                          // Other fields...
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,39 +178,10 @@ class _ReIssueContentState extends State<ReIssueContent> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
-                              
                               ElevatedButton(
                                 onPressed: () async {
-    // if (booksinUser.isNotEmpty) {
-    //   String originalReturnDateString = booksinUser[0].ReturnDate;
-    //   List<String> dateParts = originalReturnDateString.split('/');
-      
-    //   if (dateParts.length == 3) {
-    //     int day = int.tryParse(dateParts[0]) ?? 0;
-    //     int month = int.tryParse(dateParts[1]) ?? 0;
-    //     int year = int.tryParse(dateParts[2]) ?? 0;
-        
-    //     if (day != 0 && month != 0 && year != 0) {
-    //       DateTime originalReturnDate = DateTime(year, month, day);
-    //       DateTime newReturnDate = originalReturnDate.add(Duration(days: 14));
-          
-    //       String newReturnDateString =
-    //           "${newReturnDate.day}/${newReturnDate.month}/${newReturnDate.year}";
-          
-    //       // Update Firebase Firestore
-    //       await FirebaseFirestore.instance
-    //           .collection('UserData')
-    //           .doc('0')
-    //           .update({'IssuedBook.0.ReturnDate': newReturnDateString});
-
-    //       // Update local data (assuming booksinUser[0] is the book being updated)
-    //       setState(() {
-    //         booksinUser[0].ReturnDate = newReturnDateString;
-    //       });
-    //     }
-    //   }
-    // }
-  },
+                                  // Logic for Renew button
+                                },
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.black,
                                   shape: RoundedRectangleBorder(
@@ -272,3 +208,9 @@ class _ReIssueContentState extends State<ReIssueContent> {
     );
   }
 }
+
+// void main() {
+//   runApp(MaterialApp(
+//     home: ReIssueContent(),
+//   ));
+// }
