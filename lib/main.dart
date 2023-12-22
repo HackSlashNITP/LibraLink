@@ -5,6 +5,14 @@ import 'package:libralink/Screens/Auth/authWrapper.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
 import 'package:libralink/home_screen.dart';
 import 'package:libralink/Screens/Add_books.dart';
+import "package:firebase_core/firebase_core.dart";
+import 'package:libralink/return.dart';
+import 'firebase_options.dart';
+import 'package:libralink/Screens/Auth/login_screen.dart';
+import 'package:libralink/home_screen.dart';
+import 'package:libralink/Screens/Add_books.dart';
+import 'package:libralink/Screens/Add_books.dart';
+import 'package:libralink/Screens/Auth/login_screen.dart';
 import 'package:libralink/Screens/notification.dart';
 import 'package:libralink/duesScreen.dart';
 import 'package:libralink/issued_book.dart';
@@ -19,6 +27,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +44,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(debugShowCheckedModeBanner: false, routes: {
       "/": (context) => AuthWrapper(),
+      "/": (context) => LandingPage(),
+      //  "/": (context) => ReIssuePage(),
       MyRoutes.homeRoute: (context) => HomePage(),
       MyRoutes.issuedBooksRoute: (context) => IssuedBookPage(),
       MyRoutes.pDuesRoute: (context) => DuesScreen(),
@@ -38,6 +54,7 @@ class MyApp extends StatelessWidget {
       MyRoutes.profileRoute: (context) => ProfilePage(),
       MyRoutes.signinRoute: (context) => LoginScreen(),
       MyRoutes.signupRoute: (context) => SignUpScreen(),
+      MyRoutes.returnRoute: (context) => ReIssueContent(),
     });
   }
 }
