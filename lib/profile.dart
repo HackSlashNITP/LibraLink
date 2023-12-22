@@ -1,46 +1,47 @@
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:libralink/routes/mapping.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController contactNumberController = TextEditingController();
   final TextEditingController emailAddressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idCardController = TextEditingController();
-  String idCardImageUrl = '';
 
   File? _image;
   File? idCardImage;
-  Future<void> saveUserData() async {
+
+  Future<void> _signOut() async {
     try {
-      String id = DateTime.now().millisecondsSinceEpoch.toString();
-      await FirebaseFirestore.instance.collection('users').doc(id).set({
-        'fullName': fullNameController.text,
-        'username': usernameController.text,
-        'contactNumber': contactNumberController.text,
-        'emailAddress': emailAddressController.text,
-        'password': passwordController.text,
-        'idCardImageUrl': idCardImageUrl,
-      });
+      await _auth.signOut();
+      print("User signed out");
+      Navigator.pushNamed(context, MyRoutes.signinRoute);
 
-
+      // You can navigate to another screen or perform additional actions after sign-out.
     } catch (e) {
-      print('Error saving data: $e');
+      print("Error during sign-out: $e");
+      // Handle sign-out errors here (e.g., display an error message).
     }
   }
-
-
 
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
@@ -54,12 +55,13 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('Gallery'),
               onTap: () async {
                 Navigator.pop(context);
-                  final image =  await imagePicker.pickImage(source: ImageSource.gallery);
-                 if (image != null) {
-                setState(() {
-                  _image = File(image.path);
-                });
-              }
+                final image =
+                    await imagePicker.pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  setState(() {
+                    _image = File(image.path);
+                  });
+                }
               },
             ),
             ListTile(
@@ -67,60 +69,32 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('Camera'),
               onTap: () async {
                 Navigator.pop(context);
-                 final image=  await imagePicker.pickImage(source: ImageSource.camera);
-               if (image != null) {
-                setState(() {
-                  _image = File(image.path);
-                });
-              }
+                final image =
+                    await imagePicker.pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  setState(() {
+                    _image = File(image.path);
+                  });
+                }
               },
             ),
           ],
         );
       },
     );
-
   }
+
   Future<void> _pickIdCardImage() async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      try {
-        final Reference storageReference = FirebaseStorage.instance
-            .ref()
-            .child('id_card_images')
-            .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
-
-        final UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
-        final TaskSnapshot taskSnapshot = await uploadTask;
-
-        final String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-        setState(() {
-          idCardImage = File(pickedFile.path);
-          idCardImageUrl = downloadURL;
-        });
-      } catch (e) {
-        print('Error uploading ID card image: $e');
-      }
+      setState(() {
+        idCardImage = File(pickedFile.path);
+        idCardController.text = pickedFile.path;
+      });
     }
   }
-
-
-
-  @override
-  void dispose(){
-    super.dispose();
-    fullNameController.dispose();
-    usernameController.dispose();
-    contactNumberController.dispose();
-    emailAddressController.dispose();
-    passwordController.dispose();
-    idCardController.dispose();
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +103,16 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.black,
+              size: 30,
+            ),
+            onPressed: _signOut,
+          )
+        ],
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -178,21 +162,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                             ),
                           ),
-                          if(_image == null)
-                          Positioned(
-                            bottom: 5,
-                            right: 5,
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/plus.png',
-                                  fit: BoxFit.cover,
+                          if (_image == null)
+                            Positioned(
+                              bottom: 5,
+                              right: 5,
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/plus.png',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -251,7 +235,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       labelText: 'ID Card',
                       suffixIcon: GestureDetector(
                         onTap: () {
-                          
                           _pickIdCardImage();
                         },
                         child: Icon(Icons.add_a_photo),
@@ -261,7 +244,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                    
                       if (idCardImage != null) {
                         showDialog(
                           context: context,
@@ -278,8 +260,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         if (idCardImage != null)
                           Container(
-                            width: 150, 
-                            height: 100, 
+                            width: 150,
+                            height: 100,
                             child: Image.file(idCardImage!, fit: BoxFit.cover),
                           )
                         else
@@ -298,7 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             // Save Button
             ElevatedButton(
-              onPressed: () {saveUserData();},
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,
                 shape: RoundedRectangleBorder(
@@ -315,4 +297,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    usernameController.dispose();
+    contactNumberController.dispose();
+    emailAddressController.dispose();
+    passwordController.dispose();
+    idCardController.dispose();
+    super.dispose();
+  }
 }
