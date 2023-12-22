@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import "package:firebase_core/firebase_core.dart";
+import 'package:libralink/return.dart';
 import 'firebase_options.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
 import 'package:libralink/home_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false, routes: {
       "/": (context) => LandingPage(),
+      //  "/": (context) => ReIssuePage(),
       MyRoutes.homeRoute: (context) => HomePage(),
       MyRoutes.issuedBooksRoute: (context) => IssuedBookPage(),
       MyRoutes.pDuesRoute: (context) => DuesScreen(),
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
       MyRoutes.profileRoute: (context) => ProfilePage(),
       MyRoutes.signinRoute: (context) => LoginScreen(),
       MyRoutes.signupRoute: (context) => SignUpScreen(),
+      MyRoutes.returnRoute: (context) => ReIssueContent(),
     });
   }
 }
