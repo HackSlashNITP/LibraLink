@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/signup_screen.dart';
 import '../../routes/mapping.dart';
 
@@ -9,123 +7,20 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({
     super.key,
   });
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final String allowedDomain = "nitp.ac.in";
-
-  void showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  }
-
-  Future<void> _signIn() async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      if (userCredential.user != null && userCredential.user!.email != null) {
-        if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
-          showToast("User Signed In Successfully");
-        } else {
-          _showErrorDialoge("Please use an Valid email of $allowedDomain");
-        }
-      }
-    } catch (e) {
-      _showErrorDialoge(
-          "Error during sign-in: Please check credentials and try again $e");
-    }
-  }
-
-  void _showErrorDialoge(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _resetPassword(BuildContext context) async {
-    try {
-      await _auth.sendPasswordResetEmail(email: _emailController.text);
-      _showSuccessDialog(context);
-    } catch (e) {
-      _showErrorDialog(context, e.toString());
-    }
-  }
-
-  void _showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Password Reset Email Sent"),
-          content:
-              Text("Check your email for instructions to reset your password."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showErrorDialog(BuildContext context, String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -196,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 52,
                             child: TextField(
-                              controller: _emailController,
+                              controller: emailController,
                               decoration: InputDecoration(
                                 labelText: 'E-mail / Username ',
                                 labelStyle: const TextStyle(
@@ -223,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 52,
                             child: TextField(
-                              controller: _passwordController,
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 labelText: 'Password ',
@@ -252,21 +147,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: MediaQuery.of(context).size.width * 0.75,
                             height: 46,
                             child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0.0,
-                                  backgroundColor: const Color(0xFF1E293B),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0.0,
+                                backgroundColor: const Color(0xFF1E293B),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                                child: const Text(
-                                  'LOGIN',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white),
-                                ),
-                                onPressed: _signIn),
+                              ),
+                              child: const Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, MyRoutes.homeRoute);
+                              },
+                            ),
                           ),
                           const SizedBox(
                             height: 30,
@@ -282,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => {_resetPassword(context)},
+                                  onTap: () => {},
                                   child: const Text(
                                     'Forgot password',
                                     style: TextStyle(
