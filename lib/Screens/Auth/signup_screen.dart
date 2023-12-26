@@ -1,96 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
+
 import '../../routes/mapping.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final cpasswordController = TextEditingController();
-  final String allowedDomain = "nitp.ac.in";
-
-  Future<void> _signUp() async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (userCredential.user != null && userCredential.user!.email != null) {
-        if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
-          String name = nameController.text;
-
-          showToast("$name Signed Up Successfully");
-        } else {
-          await userCredential.user!.delete();
-          _showErrorDialog("Please use an email from $allowedDomain.");
-        }
-      }
-    } catch (e) {
-      _showErrorDialog("Error during sign-up: $e");
-    }
-  }
-
-  void _showErrorDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Error"),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Future<void> _signUp() async {
-  //   try {
-  //     UserCredential userCredential =
-  //         await _auth.createUserWithEmailAndPassword(
-  //       email: emailController.text,
-  //       password: passwordController.text,
-  //     );
-  //     print("User registered: ${userCredential.user!.email}");
-  //     Navigator.pushNamed(context, MyRoutes.homeRoute);
-  //     showToast("User is successfully signed up");
-  //     // You can navigate to another screen or perform additional actions after registration.
-  //   } catch (e) {
-  //     print("Error during registration: $e");
-  //     showToast("Error during registration : $e");
-  //     // Handle registration errors here (e.g., display an error message).
-  //   }
-  // }
-
-  void showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.black,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -297,7 +221,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                _signUp();
+                                Navigator.pushNamed(
+                                    context, MyRoutes.homeRoute);
                               },
                             ),
                           ),
