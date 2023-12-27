@@ -1,12 +1,9 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -18,29 +15,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController emailAddressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idCardController = TextEditingController();
-  String idCardImageUrl = '';
 
   File? _image;
   File? idCardImage;
-  Future<void> saveUserData() async {
-    try {
-      String id = DateTime.now().millisecondsSinceEpoch.toString();
-      await FirebaseFirestore.instance.collection('users').doc(id).set({
-        'fullName': fullNameController.text,
-        'username': usernameController.text,
-        'contactNumber': contactNumberController.text,
-        'emailAddress': emailAddressController.text,
-        'password': passwordController.text,
-        'idCardImageUrl': idCardImageUrl,
-      });
-
-
-    } catch (e) {
-      print('Error saving data: $e');
-    }
-  }
-
-
 
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
@@ -81,34 +58,19 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
   }
+
   Future<void> _pickIdCardImage() async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      try {
-        final Reference storageReference = FirebaseStorage.instance
-            .ref()
-            .child('id_card_images')
-            .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
-
-        final UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
-        final TaskSnapshot taskSnapshot = await uploadTask;
-
-        final String downloadURL = await taskSnapshot.ref.getDownloadURL();
-
-        setState(() {
-          idCardImage = File(pickedFile.path);
-          idCardImageUrl = downloadURL;
-        });
-      } catch (e) {
-        print('Error uploading ID card image: $e');
-      }
+      setState(() {
+        idCardImage = File(pickedFile.path);
+        idCardController.text =
+            pickedFile.path; 
+      });
     }
   }
-
-
-
   @override
   void dispose(){
     super.dispose();
@@ -298,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             // Save Button
             ElevatedButton(
-              onPressed: () {saveUserData();},
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,
                 shape: RoundedRectangleBorder(
