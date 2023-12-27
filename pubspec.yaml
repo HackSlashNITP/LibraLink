@@ -37,6 +37,7 @@ dependencies:
   flutter_native_splash: null
   image_picker: ^1.0.4
   lottie: ^2.6.0
+  firebase_core: ^2.24.2
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
