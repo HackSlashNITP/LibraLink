@@ -7,5 +7,4 @@ class MyRoutes {
   static String notifRoute ="/notification.dart";
   static String signinRoute ="/login_screen.dart";
   static String signupRoute ="/signup_screen.dart";
-  static String returnRoute ="/return.dart";
 }
