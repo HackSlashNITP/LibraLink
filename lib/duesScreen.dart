@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:libralink/routes/mapping.dart';
 
+List<Book> books = [
+  Book("Book1", DateTime(2023, 10, 1)),
+  Book("Book2", DateTime(2023, 10, 2)),
+  Book("Book3", DateTime(2023, 10, 5)),
+  Book("Book4", DateTime(2023, 10, 6)),
+];
+
 class DuesScreen extends StatefulWidget {
   const DuesScreen({super.key});
 
@@ -11,19 +18,20 @@ class DuesScreen extends StatefulWidget {
 class Book {
   String name;
   DateTime dateIssued;
-  int daysIssued;
-  Book(this.name, this.dateIssued, this.daysIssued);
+  Book(this.name, this.dateIssued);
 }
 
 class _DuesScreenState extends State<DuesScreen> {
-  @override
-  int _counter = 55;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  int calculateLateFee(List<Book> books, DateTime currentDate) {
+    int totalLateFees = 0;
+    for (Book book in books) {
+      int daysDelayed = currentDate.difference(book.dateIssued).inDays - 14;
+      if (daysDelayed > 0) totalLateFees += (daysDelayed);
+    }
+    return totalLateFees;
   }
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -77,7 +85,7 @@ class _DuesScreenState extends State<DuesScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Text(
-                    'Rs $_counter',
+                    '₹${calculateLateFee(books, DateTime.now()).toStringAsFixed(2)}',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
@@ -137,7 +145,15 @@ class _DuesScreenState extends State<DuesScreen> {
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400)),
-                              Text('${books[index].daysIssued}',
+                              Text(
+                                  (DateTime.now()
+                                                  .difference(
+                                                      books[index].dateIssued)
+                                                  .inDays -
+                                              14 >
+                                          0)
+                                      ? '${DateTime.now().difference(books[index].dateIssued).inDays - 14}'
+                                      : '0',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400)),
@@ -196,10 +212,3 @@ class _DuesScreenState extends State<DuesScreen> {
     );
   }
 }
-
-List<Book> books = [
-  Book("Book1", DateTime(2023, 10, 1), 10),
-  Book("Book2", DateTime(2023, 10, 2), 23),
-  Book("Book3", DateTime(2023, 10, 5), 13),
-  Book("Book4", DateTime(2023, 10, 6), 15),
-];
