@@ -38,6 +38,7 @@ dependencies:
   image_picker: ^1.0.4
   lottie: ^2.6.0
   firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
