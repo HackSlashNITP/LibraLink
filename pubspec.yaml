@@ -39,6 +39,8 @@ dependencies:
   lottie: ^2.6.0
   firebase_core: ^2.24.2
   cloud_firestore: ^4.13.6
+  firebase_messaging: ^14.7.9
+  flutter_local_notifications: ^16.3.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
