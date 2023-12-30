@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:libralink/Screens/Auth/authWrapper.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
 import 'package:libralink/firebase_api.dart';
 import 'package:libralink/firebase_options.dart';
@@ -22,7 +23,10 @@ final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+<<<<<<< HEAD
   await FirebaseApi().initNotifications();
+=======
+>>>>>>> d66a0756414f3ef451559c26b61f192b34be4728
   runApp(const MyApp());
 }
 
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
@@ -46,5 +51,18 @@ class MyApp extends StatelessWidget {
         MyRoutes.signupRoute: (context) => SignUpScreen(),
       },
     );
+=======
+    return MaterialApp(debugShowCheckedModeBanner: false, routes: {
+      "/": (context) => AuthWrapper(),
+      MyRoutes.homeRoute: (context) => HomePage(),
+      MyRoutes.issuedBooksRoute: (context) => IssuedBookPage(),
+      MyRoutes.pDuesRoute: (context) => DuesScreen(),
+      MyRoutes.nDuesRoute: (context) => noDues(),
+      MyRoutes.notifRoute: (context) => notification(),
+      MyRoutes.profileRoute: (context) => ProfilePage(),
+      MyRoutes.signinRoute: (context) => LoginScreen(),
+      MyRoutes.signupRoute: (context) => SignUpScreen(),
+    });
+>>>>>>> d66a0756414f3ef451559c26b61f192b34be4728
   }
 }
