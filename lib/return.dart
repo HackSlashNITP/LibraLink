@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart'; 
-
-class IssuedBookModel {
-  final String bookId;
-  final String issuedDate;
-  String returnDate;
-  final bool isSubmitted;
-  final String bookName;
-  final String authorName;
-  final String activeDue; 
-
-  IssuedBookModel({
-    required this.bookId,
-    required this.issuedDate,
-    required this.returnDate,
-    required this.isSubmitted,
-    required this.bookName,
-    required this.authorName,
-    required this.activeDue, 
-  });
-}
+import 'package:intl/intl.dart';
 
 class ReIssueContent extends StatefulWidget {
   @override
@@ -28,48 +8,49 @@ class ReIssueContent extends StatefulWidget {
 }
 
 class _ReIssueContentState extends State<ReIssueContent> {
-  late Stream<DocumentSnapshot> userStream;
+  late Stream<QuerySnapshot> bookStream;
   int currentBookIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    userStream = FirebaseFirestore.instance.collection("UserData").doc("1").snapshots();
+    bookStream =
+        FirebaseFirestore.instance.collection("issued_books").snapshots();
   }
 
-// Future<void> renewBook() async {
-//   final userDataSnapshot = await FirebaseFirestore.instance.collection("UserData").doc("1").get();
-//   final userData = userDataSnapshot.data();
+  CollectionReference issued_books =
+      FirebaseFirestore.instance.collection('issued_books');
+  Future<void> deletebook(id) {
+    print("Book Deleted id: $id");
+    print(currentBookIndex);
+    return issued_books
+        .doc(id)
+        .delete()
+        .then((value) => print('Book Deleted'))
+        .catchError((error) => print('Failed to Delete Book: $error'));
+  }
 
-//   if (userData != null && userData is Map<String, dynamic>) {
-//     final issuedBooks = userData["IssuedBook"];
-//     if (issuedBooks != null && issuedBooks is List<dynamic>) {
-//       final List<dynamic> updatedBooks = List.from(issuedBooks); 
+  Future<void> renewBook(id, returnDate, remainingDays) async {
+    DateTime oldReturnDate = DateFormat('dd-MM-yyyy').parse(returnDate);
+    DateTime newReturnDate = oldReturnDate.add(Duration(days: 14));
+    String newFormattedDate = DateFormat('dd-MM-yyyy').format(newReturnDate);
+    int oldRemainingDays = remainingDays;
+    int newRemainingDays = oldRemainingDays + 14;
 
-//       String oldReturnDateString = updatedBooks[currentBookIndex]['ReturnDate'];
-//       DateTime oldReturnDate = DateFormat('dd/MM/yyyy').parse(oldReturnDateString);
-
-//       DateTime newReturnDate = oldReturnDate.add(Duration(days: 14));
-
-//       String newReturnDateString = DateFormat('dd/MM/yyyy').format(newReturnDate);
-//       Map<String, dynamic> bookToUpdate = updatedBooks[currentBookIndex];
-//       bookToUpdate['ReturnDate'] = newReturnDateString;
-//       updatedBooks[currentBookIndex] = bookToUpdate;
-
-//       await FirebaseFirestore.instance.collection("UserData").doc("1").update({"IssuedBook": updatedBooks});
-//       setState(() {});
-//     }
-//   }
-// }
-
+    await issued_books.doc(id).update({
+      'return_date': newFormattedDate,
+      'remaining_days': newRemainingDays,
+    });
+    print('Book Renewed');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: userStream,
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: bookStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError || !snapshot.hasData) {
-           return Scaffold(
+          return Scaffold(
             body: Center(
               child: Text("Page Not Found"),
             ),
@@ -83,14 +64,12 @@ class _ReIssueContentState extends State<ReIssueContent> {
             ),
           );
         }
-
-        final Map<String, dynamic>? data = snapshot.data!.data() as Map<String, dynamic>?;
-
-        String activeDue = data != null && data['Dues'] != null
-            ? data['Dues'].toString()
-            : '00'; // Fetch activeDue
-
-        final dynamic issuedBooks = data != null ? data["IssuedBook"] : null;
+        final List storedocs = [];
+        snapshot.data!.docs.map((DocumentSnapshot document) {
+          Map a = document.data() as Map<String, dynamic>;
+          storedocs.add(a);
+          a['id'] = document.id;
+        }).toList();
 
         return Scaffold(
           appBar: AppBar(
@@ -114,7 +93,8 @@ class _ReIssueContentState extends State<ReIssueContent> {
                 setState(() {
                   currentBookIndex--;
                 });
-              } else if (details.primaryVelocity! < 0 && currentBookIndex < (issuedBooks?.length ?? 0) - 1) {
+              } else if (details.primaryVelocity! < 0 &&
+                  currentBookIndex < (storedocs?.length ?? 0) - 1) {
                 setState(() {
                   currentBookIndex++;
                 });
@@ -138,22 +118,25 @@ class _ReIssueContentState extends State<ReIssueContent> {
                       SizedBox(height: 20),
                       Center(
                         child: Text(
-                          'Book Name: ${issuedBooks != null ? issuedBooks['$currentBookIndex']['bookName'] : 'N/A'}',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          'Book Name: ${storedocs != null ? storedocs[currentBookIndex]['title'] : 'N/A'}',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Center(
                         child: Text(
-                          'Author Name: ${issuedBooks != null ? issuedBooks['$currentBookIndex']['authorName'] : 'N/A'}',
+                          'Author Name: ${storedocs != null ? storedocs[currentBookIndex]['author'] : 'N/A'}',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
                       SizedBox(height: 60),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.width * 0.8 * 310 / 315,
+                        height:
+                            MediaQuery.of(context).size.width * 0.8 * 310 / 315,
                         margin: EdgeInsets.symmetric(horizontal: 20),
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(20),
@@ -167,11 +150,15 @@ class _ReIssueContentState extends State<ReIssueContent> {
                               children: [
                                 Text(
                                   'Issue Date:',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  '${issuedBooks != null ? issuedBooks['$currentBookIndex']['IssuedDate'] : 'N/A'}',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  '${storedocs != null ? storedocs[currentBookIndex]['issued_date'] : 'N/A'}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
@@ -180,11 +167,15 @@ class _ReIssueContentState extends State<ReIssueContent> {
                               children: [
                                 Text(
                                   'Return Date:',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  '${issuedBooks != null ? issuedBooks['$currentBookIndex']['ReturnDate'] : 'N/A'}',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  '${storedocs != null ? storedocs[currentBookIndex]['return_date'] : 'N/A'}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
@@ -192,12 +183,16 @@ class _ReIssueContentState extends State<ReIssueContent> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Active Due:',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  'Remaining Days:',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Text(
-                                  '${issuedBooks != null ? issuedBooks['$currentBookIndex']['activeDue'] : 'N/A'}',
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                  '${storedocs != null ? storedocs[currentBookIndex]['remaining_days'] : 'N/A'}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
@@ -206,8 +201,17 @@ class _ReIssueContentState extends State<ReIssueContent> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {
-                                    // Logic 
+                                  onPressed: () => {
+                                    deletebook(
+                                        storedocs[currentBookIndex]['id']),
+                                    setState(() {
+                                      storedocs.removeAt(currentBookIndex);
+                                      if (currentBookIndex >=
+                                              storedocs.length &&
+                                          storedocs.length > 0) {
+                                        currentBookIndex = storedocs.length - 1;
+                                      }
+                                    })
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.black,
@@ -222,8 +226,14 @@ class _ReIssueContentState extends State<ReIssueContent> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
-                                    // await renewBook();
-                                    // setState(() {});
+                                    await renewBook(
+                                      storedocs[currentBookIndex]['id'],
+                                      storedocs[currentBookIndex]
+                                          ['return_date'],
+                                      storedocs[currentBookIndex]
+                                          ['remaining_days'],
+                                    );
+                                    setState(() {});
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.black,
