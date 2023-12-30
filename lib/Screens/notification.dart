@@ -1,12 +1,18 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:libralink/books%20model/books.dart';
-import 'package:libralink/widgets/bookwidget.dart';
 
-class notification extends StatelessWidget {
-  const notification({super.key});
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+
+    // Check if arguments is not null and is of type RemoteMessage
+    if (arguments is RemoteMessage) {
+      final message = arguments;
+
+      return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -22,9 +28,11 @@ class notification extends StatelessWidget {
             ),
           ),
           title: Text(
-            "Notification",
+            '${message.notification?.title.toString()}',
             style: TextStyle(
-                color: Colors.black, fontSize: 25, fontWeight: FontWeight.w400),
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.w400),
           ),
         ),
         body: Column(
@@ -33,14 +41,40 @@ class notification extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: libmodel.books.length,
-                itemBuilder: (context, index) {
-                  return bookwidget(book: libmodel.books[index]);
-                },
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      '${message.notification?.body.toString()}',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        backgroundColor: Colors.white70,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
+                    child: Text(
+                      '${message.data.toString()}',
+                      style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                    ),
+                  )
+                ],
               ),
             )
           ],
-        ));
+        ),
+      );
+    } else {
+      // Handle the case where arguments is not a RemoteMessage
+      return const Scaffold(
+        body: Center(
+          child: Text('No Notifications for now!'),
+        ),
+      );
+    }
   }
 }
