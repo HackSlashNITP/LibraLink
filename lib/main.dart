@@ -15,11 +15,10 @@ import 'package:libralink/routes/mapping.dart';
 
 import 'Screens/Auth/signup_screen.dart';
 
-Future<void> main() async {
-  runApp(const MyApp());
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +36,6 @@ class MyApp extends StatelessWidget {
       MyRoutes.profileRoute: (context) => ProfilePage(),
       MyRoutes.signinRoute: (context) => LoginScreen(),
       MyRoutes.signupRoute: (context) => SignUpScreen(),
-
     });
   }
 }
