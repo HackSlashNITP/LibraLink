@@ -13,6 +13,7 @@ import 'package:libralink/issued_book.dart';
 import 'package:libralink/landingPage.dart';
 import 'package:libralink/noDuesScreen.dart';
 import 'package:libralink/profile.dart';
+import 'package:libralink/return.dart';
 import 'package:libralink/routes/mapping.dart';
 
 import 'Screens/Auth/signup_screen.dart';
@@ -62,6 +63,8 @@ class MyApp extends StatelessWidget {
       MyRoutes.profileRoute: (context) => ProfilePage(),
       MyRoutes.signinRoute: (context) => LoginScreen(),
       MyRoutes.signupRoute: (context) => SignUpScreen(),
+      MyRoutes.returnRoute: (context) => ReIssueContent(),
+
     });
 >>>>>>> d66a0756414f3ef451559c26b61f192b34be4728
   }
