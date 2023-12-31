@@ -89,10 +89,17 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.001,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    child: IssuedBookPg(),
+                  GestureDetector(
+                    
+                onTap: () {
+                    Navigator.pushNamed(context, MyRoutes.returnRoute);
+
+                },
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      child: IssuedBookPg(),
+                    ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Padding(

@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:libralink/routes/mapping.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,12 +12,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController contactNumberController = TextEditingController();
   final TextEditingController emailAddressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idCardController = TextEditingController();
+
+  Future<void> _signOut() async {
+    try {
+      await _auth.signOut();
+      print("User signed out");
+      Navigator.pushNamed(context, MyRoutes.signinRoute);
+    } catch (e) {
+      print("Error during sign-out: $e");
+    }
+  }
 
   File? _image;
   File? idCardImage;
@@ -31,12 +46,13 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('Gallery'),
               onTap: () async {
                 Navigator.pop(context);
-                  final image =  await imagePicker.pickImage(source: ImageSource.gallery);
-                 if (image != null) {
-                setState(() {
-                  _image = File(image.path);
-                });
-              }
+                final image =
+                    await imagePicker.pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  setState(() {
+                    _image = File(image.path);
+                  });
+                }
               },
             ),
             ListTile(
@@ -44,19 +60,19 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('Camera'),
               onTap: () async {
                 Navigator.pop(context);
-                 final image=  await imagePicker.pickImage(source: ImageSource.camera);
-               if (image != null) {
-                setState(() {
-                  _image = File(image.path);
-                });
-              }
+                final image =
+                    await imagePicker.pickImage(source: ImageSource.camera);
+                if (image != null) {
+                  setState(() {
+                    _image = File(image.path);
+                  });
+                }
               },
             ),
           ],
         );
       },
     );
-
   }
 
   Future<void> _pickIdCardImage() async {
@@ -66,8 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (pickedFile != null) {
       setState(() {
         idCardImage = File(pickedFile.path);
-        idCardController.text =
-            pickedFile.path; 
+        idCardController.text = pickedFile.path;
       });
     }
   }
@@ -79,6 +94,16 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.black,
+              size: 30,
+            ),
+            onPressed: _signOut,
+          )
+        ],
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -128,21 +153,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                             ),
                           ),
-                          if(_image == null)
-                          Positioned(
-                            bottom: 5,
-                            right: 5,
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/plus.png',
-                                  fit: BoxFit.cover,
+                          if (_image == null)
+                            Positioned(
+                              bottom: 5,
+                              right: 5,
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/plus.png',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -201,7 +226,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       labelText: 'ID Card',
                       suffixIcon: GestureDetector(
                         onTap: () {
-                          
                           _pickIdCardImage();
                         },
                         child: Icon(Icons.add_a_photo),
@@ -211,7 +235,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                    
                       if (idCardImage != null) {
                         showDialog(
                           context: context,
@@ -228,8 +251,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         if (idCardImage != null)
                           Container(
-                            width: 150, 
-                            height: 100, 
+                            width: 150,
+                            height: 100,
                             child: Image.file(idCardImage!, fit: BoxFit.cover),
                           )
                         else
