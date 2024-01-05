@@ -26,49 +26,70 @@ class _HomePageState extends State<HomePage> {
   final Stream<DocumentSnapshot> _documentStream =
       FirebaseFirestore.instance.collection('UsersData').doc('0').snapshots();
 
+  late Stream<Map<String, dynamic>> documentStream =
+      getDocumentStream("UserData", "0");
+  // ** created a function which fetches only a specific doc from the
+  // **   collection and stored in documentStream
+  Stream<Map<String, dynamic>> getDocumentStream(
+      String collectionName, String documentId) {
+    return FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(documentId)
+        .snapshots()
+        .map((DocumentSnapshot<Map<String, dynamic>> snapshot) {
+      return snapshot.data() ?? {};
+    });
+  }
+
   //  CollectionReference students =
   //   FirebaseFirestore.instance.collection("UserData");
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return StreamBuilder<QuerySnapshot>(
-        stream: userStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    return StreamBuilder<Map<String, dynamic>>(
+        stream: documentStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<Map<String, dynamic>> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
 
-         
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
-              body:Center(
-                child: CircularProgressIndicator(color: Colors.blueAccent),
-              )
-            );
+                body: Center(
+              child: CircularProgressIndicator(color: Colors.blueAccent),
+            ));
           }
 
-          final List<Map<String, dynamic>?> docData = snapshot.data!.docs
-              .map((e) => e.data() as Map<String, dynamic>?)
-              .toList();
-          List IssuedBooks = docData[0]?["IssuedBook"];
+          //** Mapped the snapshot data and stored in documentData */
 
-          // print(IssuedBooks);
+          Map<String, dynamic> documentData = snapshot.data ?? {};
+          //** Take out the IssuedBook Map  */
+          Map<String, dynamic> issuedBooks = documentData['IssuedBook'];
+          List<Map<String, dynamic>> issuedBooksList = [];
+          //** Here for all the keys of Issued book, I take the Map and stored in issuedBooksList */
+          int i = 0;
+          while (issuedBooks["$i"] != null) {
+            issuedBooksList.add(issuedBooks["$i"]!);
+            // print(issuedBooks["$i"]);
+            i++;
+          }
 
-          // print("Success");
-          // print(docData[0]?["Dues"]);
+          // print(issuedBooksList);
+          //** finally created an object list of IssuedBooksModel which i pass to
+          //    widget  called MyListViewBuilder*/
           List<IssuedBookModel> booksinUser = [];
-          for (int i = 0; i < IssuedBooks.length; i++) {
-            booksinUser.insert(
-                i,
-                IssuedBookModel(
-                    bookId: IssuedBooks[i]['bookId'],
-                    IssuedDate: IssuedBooks[i]['IssuedDate'],
-                    ReturnDate: IssuedBooks[i]['ReturnDate'],
-                    isSubmitted: IssuedBooks[i]['isSubmitted'],
-                    bookName: IssuedBooks[i]['bookName'],
-                    authorName: IssuedBooks[i]['authorName']),
-                    );
+          for (int j = 0; j < issuedBooksList.length; j++) {
+            booksinUser.add(IssuedBookModel(
+              bookId: issuedBooksList[j]['bookId'],
+              IssuedDate: issuedBooksList[j]['IssuedDate'],
+              ReturnDate: issuedBooksList[j]['ReturnDate'],
+              isSubmitted: issuedBooksList[j]['isSubmitted'],
+              bookName: issuedBooksList[j]['bookName'],
+              authorName: issuedBooksList[j]['authorName'],
+              activeDue: issuedBooksList[j]['activeDue'],
+            ));
           }
           return Scaffold(
               body: Container(
@@ -84,7 +105,8 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.fill,
                   )),
                   child: Padding(
-                    padding: const EdgeInsets.only(top:50.0,left:19,right:19),
+                    padding:
+                        const EdgeInsets.only(top: 50.0, left: 19, right: 19),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //mainAxisSize: MainAxisSize.min,
@@ -128,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(top: 130, left: 38),
                 child: Container(
                   child: Text(
-                    docData[0]?["Username"],
+                    documentData["Username"],
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w400,
@@ -285,6 +307,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              //**jay's hard coded values */
               // Padding(
               //   padding: const EdgeInsets.only(top: 533, left: 28),
               //   child:
@@ -317,7 +340,6 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(top: 520, left: 10),
                 child: SizedBox(
-                  
                   child: MyListViewBuilder(booklist: booksinUser),
                 ),
               )
