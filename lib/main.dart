@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:libralink/Screens/Auth/authWrapper.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.profileRoute: (context) => ProfilePage(),
         MyRoutes.signinRoute: (context) => LoginScreen(),
         MyRoutes.signupRoute: (context) => SignUpScreen(),
+        MyRoutes.addbooks: (context) => Addbook(),
       },
     );
   }

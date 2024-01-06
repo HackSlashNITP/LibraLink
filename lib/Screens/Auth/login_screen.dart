@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/signup_screen.dart';
+import 'package:libralink/home_screen.dart';
 import '../../routes/mapping.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -39,7 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       if (userCredential.user != null && userCredential.user!.email != null) {
         if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomePage()));
           showToast("User Signed In Successfully");
         } else {
           _showErrorDialoge("Please use an Valid email of $allowedDomain");
