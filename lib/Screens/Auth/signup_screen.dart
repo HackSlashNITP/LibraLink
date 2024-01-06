@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
+import 'package:libralink/home_screen.dart';
+import 'package:libralink/profile.dart';
+import 'package:libralink/DB-models/user.dart' as model;
 import '../../routes/mapping.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,12 +16,13 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
   final cpasswordController = TextEditingController();
   final String allowedDomain = "nitp.ac.in";
-
+  //signup user
   Future<void> _signUp() async {
     try {
       UserCredential userCredential =
@@ -25,10 +30,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: emailController.text,
         password: passwordController.text,
       );
+      //checking the email and other signup credential
       if (userCredential.user != null && userCredential.user!.email != null) {
         if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
-          String name = nameController.text;
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomePage()));
+          String name = usernameController.text;
 
           showToast("$name Signed Up Successfully");
         } else {
@@ -36,6 +43,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _showErrorDialog("Please use an email from $allowedDomain.");
         }
       }
+      //add user to our database
+      model.user user = model.user(
+          username: usernameController.text,
+          uid: userCredential.user!.uid,
+          name: "",
+          contact: "",
+          roll: "",
+          email: emailController.text,
+          IdURL: "",
+          profileURL: "");
+
+      await _firestore
+          .collection("user")
+          .doc(userCredential.user!.uid)
+          .set(user.tojson());
     } catch (e) {
       _showErrorDialog("Error during sign-up: $e");
     }
@@ -96,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
-    nameController.dispose();
+    usernameController.dispose();
     cpasswordController.dispose();
   }
 
@@ -175,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               width: 320,
                               height: 52,
                               child: TextField(
-                                controller: nameController,
+                                controller: usernameController,
                                 decoration: InputDecoration(
                                   labelText: ' Username ',
                                   labelStyle:

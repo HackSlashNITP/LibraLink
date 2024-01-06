@@ -1,0 +1,25 @@
+
+class IssuedBookModel{
+  final String bookId;
+  final String IssuedDate;
+  final String ReturnDate;
+  final String authorName;
+  final String bookName;
+  final String activeDue;
+  final bool isSubmitted;
+
+  const IssuedBookModel({
+    required this.bookId,
+    required this.IssuedDate,
+    required this.ReturnDate,
+    required this.isSubmitted,
+    required this.bookName,
+    required this.authorName, 
+    required this.activeDue, 
+  });
+
+
+}
+ 
+
+
