@@ -71,7 +71,7 @@ class _AddbookState extends State<Addbook> {
         padding: const EdgeInsets.all(10.0),
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 30),
+            padding: const EdgeInsets.only(top: 10, bottom: 20),
             child: TextField(
               controller: nameController,
               decoration: InputDecoration(
@@ -91,7 +91,7 @@ class _AddbookState extends State<Addbook> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 30),
+            padding: EdgeInsets.only(bottom: 20),
             child: TextField(
               controller: idController,
               decoration: InputDecoration(
@@ -111,7 +111,7 @@ class _AddbookState extends State<Addbook> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 30),
+            padding: EdgeInsets.only(bottom: 20),
             child: TextField(
               readOnly: true,
               controller: issueController,
