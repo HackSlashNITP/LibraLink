@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _showErrorDialog("Error during sign-up: $e");
       }
     } else {
-      _showErrorDialog("Both passwords should be the same");
+      showToast("Both passwords should be the same");
     }
   }
 
