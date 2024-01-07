@@ -26,42 +26,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isChecked = false;
   //signup user
   Future<void> _signUp() async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      //checking the email and other signup credential
-      if (userCredential.user != null && userCredential.user!.email != null) {
-        if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomePage()));
-          String name = usernameController.text;
-
-          showToast("$name Signed Up Successfully");
-        } else {
-          await userCredential.user!.delete();
-          _showErrorDialog("Please use an email from $allowedDomain.");
-        }
-      }
-      //add user to our database
-      model.user user = model.user(
-          username: usernameController.text,
-          uid: userCredential.user!.uid,
-          name: "",
-          contact: "",
-          roll: "",
+    if (passwordController.text == cpasswordController.text) {
+      try {
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
           email: emailController.text,
-          IdURL: "",
-          profileURL: "");
+          password: passwordController.text,
+        );
+        //checking the email and other signup credential
+        if (userCredential.user != null && userCredential.user!.email != null) {
+          if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage()));
+            String name = usernameController.text;
 
-      await _firestore
-          .collection("user")
-          .doc(userCredential.user!.uid)
-          .set(user.tojson());
-    } catch (e) {
-      _showErrorDialog("Error during sign-up: $e");
+            showToast("$name Signed Up Successfully");
+          } else {
+            await userCredential.user!.delete();
+            _showErrorDialog("Please use an email from $allowedDomain.");
+          }
+        }
+        //add user to our database
+        model.user user = model.user(
+            username: usernameController.text,
+            uid: userCredential.user!.uid,
+            name: "",
+            contact: "",
+            roll: "",
+            email: emailController.text,
+            IdURL: "",
+            profileURL: "");
+
+        await _firestore
+            .collection("user")
+            .doc(userCredential.user!.uid)
+            .set(user.tojson());
+      } catch (e) {
+        _showErrorDialog("Error during sign-up: $e");
+      }
+    } else {
+      _showErrorDialog("Both passwords should be the same");
     }
   }
 
