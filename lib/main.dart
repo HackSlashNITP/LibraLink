@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        "/": (context) => LandingPage(),
+        "/": (context) => AuthWrapper(),
         MyRoutes.homeRoute: (context) => HomePage(),
         MyRoutes.issuedBooksRoute: (context) => IssuedBookPage(),
         MyRoutes.pDuesRoute: (context) => DuesScreen(),

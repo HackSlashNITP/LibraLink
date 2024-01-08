@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final String allowedDomain = "nitp.ac.in";
+  bool isChecked = false;
 
   void showToast(String message) {
     Fluttertoast.showToast(
@@ -200,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: TextField(
                               controller: _emailController,
                               decoration: InputDecoration(
-                                labelText: 'E-mail / Username ',
+                                labelText: 'E-mail',
                                 labelStyle: const TextStyle(
                                   color: Color(0xFF969696),
                                 ),
@@ -226,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 52,
                             child: TextField(
                               controller: _passwordController,
-                              obscureText: true,
+                              obscureText: !isChecked,
                               decoration: InputDecoration(
                                 labelText: 'Password ',
                                 labelStyle: const TextStyle(
@@ -248,7 +249,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 15,
+                          ),
+                          Align(
+                              alignment: Alignment.topLeft,
+                              child: Row(children: [
+                                Checkbox(
+                                  value: isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isChecked = value!;
+                                    });
+                                  },
+                                ),
+                                const Text('Show Password')
+                              ])),
+                          const SizedBox(
+                            height: 15,
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.75,
@@ -326,7 +343,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => const SignUpScreen(),
