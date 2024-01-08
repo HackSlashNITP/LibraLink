@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:libralink/books%20model/issuedbook_model.dart';
 import 'package:libralink/books%20model/privious_issuedbook_model.dart';
 
-
 class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getIssuedBooks() {
     return firestore.collection('issued_books').snapshots();
+    // return firestore.collection('issued_books').docs('uuid').collection('Transaction').snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getPriviousIssuedBooks() {
@@ -23,7 +23,6 @@ class APIs {
   //       .doc(book.bookId.toString())
   //       .set(book.toJson()));
   // }
-
 
   //    // add To privious issue book functionlity implemented here
 
