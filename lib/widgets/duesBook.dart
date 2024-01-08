@@ -17,27 +17,24 @@ class _duesBookState extends State<duesBook> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: APIs.getIssuedBooks(),
-      builder: (context, snapshot) {
+      builder: (context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasData) {
-          final data = snapshot.data?.docs;
-          final list =
-              data?.map((e) => IssuedBook.fromJson(e.data())).toList() ?? [];
-          if (data != null) {
-            return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return _BookItem(list[index], context);
-                });
-          }
+          return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: snapshot.data?.docs.length,
+              itemBuilder: (context, index) {
+                var user_data = snapshot.data!.docs[index].data();
+                return _BookItem(user_data, context);
+              });
         }
         return Center(child: CircularProgressIndicator());
       },
     );
   }
 
-  Widget _BookItem(IssuedBook book, BuildContext context) {
+  Widget _BookItem(Map<String, dynamic> book, BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
       child: Padding(
@@ -54,18 +51,18 @@ class _duesBookState extends State<duesBook> {
               ),
             ),
             Text(
-              '${book.title}',
+              '${book['title']}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
             ),
             Text(
-              '${book.issuedDate}',
+              '${book['issued_date']}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
             ),
             Text(
               (() {
                 DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-                DateTime issuedDate = dateFormat.parse(book.issuedDate);
-                DateTime returnDate = dateFormat.parse(book.returnDate);
+                DateTime issuedDate = dateFormat.parse(book['issued_date']);
+                DateTime returnDate = dateFormat.parse(book['return_date']);
                 int daysDifference =
                     returnDate.difference(issuedDate).inDays - 14;
 
