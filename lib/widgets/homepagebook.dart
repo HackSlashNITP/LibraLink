@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:libralink/api.dart';
 import 'package:libralink/books%20model/issuedBookHomePage.dart';
 import 'package:libralink/books%20model/homePage.dart';
 import 'package:libralink/duesScreen.dart';
@@ -22,15 +24,26 @@ class _MyListViewBuilderState extends State<MyListViewBuilder> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           )
-        : ListView.builder(
-            padding: EdgeInsets.all(0),
-            itemCount: widget.booklist.length,
-            itemBuilder: (context, index) {
-              return MyListItem(
-                title: widget.booklist[index].bookName,
-                date: widget.booklist[index].ReturnDate,
-                imagePath: "assets/images/Group (1).png",
-              );
+        : StreamBuilder(
+            stream: APIs.getIssuedBooks(),
+            builder: (context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    padding: EdgeInsets.all(0),
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      var user_data = snapshot.data!.docs[index].data();
+                      if (user_data['isReturned'] == false)
+                        return MyListItem(
+                            title: user_data['title'],
+                            date: user_data['return_date'],
+                            imagePath: 'assets/images/Group (1).png');
+                      else
+                        return Container();
+                    });
+              }
+              return Center(child: CircularProgressIndicator());
             },
           );
   }
@@ -111,4 +124,3 @@ class MyListItem extends StatelessWidget {
     );
   }
 }
-
