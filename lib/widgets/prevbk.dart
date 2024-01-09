@@ -1,44 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libralink/api.dart';
+import 'package:libralink/books%20model/issuedbook_model.dart';
 import 'package:libralink/books%20model/privious_issuedbook_model.dart';
+import 'package:libralink/widgets/bookItem.dart';
 import '../books model/previous.dart';
+
 class PreviousBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-       return StreamBuilder(
-      stream: APIs.getPriviousIssuedBooks(),
-      builder: (context, snapshot) {
+    return StreamBuilder(
+      stream: APIs.getIssuedBooks(),
+      builder: (context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasData) {
-          final data = snapshot.data?.docs;
-          final list =
-              data?.map((e) => PriviousIssueBook.fromJson(e.data())).toList() ??
-                  [];
-          if (data != null) {
-            return ListView.builder(
+          return ListView.builder(
               padding: EdgeInsets.all(0),
-              itemCount: list.length,
+              itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) {
-                return _buildPreviousBookItem(list[index], context);
-              },
-            );
-            // final bookList = data
-            //     .map((doc) => doc.data() as Map<String, dynamic>)
-            //     .toList();
-            // log(jsonEncode(bookList));
-            // for (var book in bookList) {
-            //   // log("${book['title']}, ${book['author']}");
-            //   return Text("${book['title']}, ${book['author']}");
-            // }
-          }
+                var user_data = snapshot.data!.docs[index].data();
+                if (user_data['isReturned'] == true)
+                  return buildBookItem(book: user_data);
+                else
+                  return Container();
+              });
         }
         return Center(child: CircularProgressIndicator());
       },
-    ); }
+    );
   }
+}
 
 Widget _buildPreviousBookItem(PriviousIssueBook bk, BuildContext context) {
   return Card(
-     margin: EdgeInsets.symmetric(vertical: 2),
+    margin: EdgeInsets.symmetric(vertical: 2),
     child: Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Row(
@@ -139,8 +134,5 @@ Widget _buildPreviousBookItem(PriviousIssueBook bk, BuildContext context) {
         ],
       ),
     ),
-  );}
-
-
-
-  
+  );
+}
