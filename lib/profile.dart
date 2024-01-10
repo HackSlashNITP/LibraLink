@@ -2,25 +2,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 import 'package:libralink/routes/mapping.dart';
-
-class ProfilePage extends StatefulWidget {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+class ProfilePage extends StatefulWidget{
   const ProfilePage({super.key});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
-
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController contactNumberController = TextEditingController();
   final TextEditingController emailAddressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idCardController = TextEditingController();
-
+  String idCardImageUrl = '';
+  String profilepicUrl='';
   Future<void> _signOut() async {
     try {
       await _auth.signOut();
@@ -30,10 +29,25 @@ class _ProfilePageState extends State<ProfilePage> {
       print("Error during sign-out: $e");
     }
   }
-
   File? _image;
   File? idCardImage;
-
+  Future<void> saveUserData() async {
+    try {
+      User? user= FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection('user').doc(user?.uid).set({
+        'name': fullNameController.text,
+        'username': usernameController.text,
+        'contact': contactNumberController.text,
+        'email': emailAddressController.text,
+        //'password': passwordController.text,
+        'Id': idCardImageUrl,
+        'uid': user?.uid,
+        'Profile':profilepicUrl,
+      });
+    } catch (e) {
+      print('Error saving data: $e');
+    }
+  }
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
     final pickedFile = await showModalBottomSheet<PickedFile>(
@@ -45,32 +59,63 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.photo_library),
               title: Text('Gallery'),
               onTap: () async {
-                Navigator.pop(context);
-                final image =
-                    await imagePicker.pickImage(source: ImageSource.gallery);
-                if (image != null) {
-                  setState(() {
-                    _image = File(image.path);
-                  });
-                }
-              },
+        Navigator.pop(context);
+        final image =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+        try {
+        final Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('profile_images')
+            .child('${FirebaseAuth.instance.currentUser?.uid}.jpg');
+
+        final UploadTask uploadTask = storageReference.putFile(
+        File(image.path));
+        final TaskSnapshot taskSnapshot = await uploadTask;
+
+        final String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+        setState(() {
+        idCardImage = File(image.path);
+        profilepicUrl = downloadURL;
+        });
+        } catch (e) {
+        print('Error uploading profile image: $e');
+        }
+        }
+        }
             ),
             ListTile(
               leading: Icon(Icons.photo_camera),
               title: Text('Camera'),
               onTap: () async {
-                Navigator.pop(context);
-                final image =
-                    await imagePicker.pickImage(source: ImageSource.camera);
-                if (image != null) {
-                  setState(() {
-                    _image = File(image.path);
-                  });
-                }
-              },
-            ),
-          ],
-        );
+    Navigator.pop(context);
+    final image =
+    await imagePicker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+    try {
+    final Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('profile_images')
+        .child('${FirebaseAuth.instance.currentUser?.uid}.jpg');
+
+    final UploadTask uploadTask = storageReference.putFile(
+    File(image.path));
+    final TaskSnapshot taskSnapshot = await uploadTask;
+
+    final String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+    setState(() {
+    idCardImage = File(image.path);
+    profilepicUrl = downloadURL;
+    });
+    } catch (e) {
+    print('Error uploading profile image: $e');
+    }
+    }
+    }
+    ),
+                  ]);
       },
     );
   }
@@ -80,13 +125,27 @@ class _ProfilePageState extends State<ProfilePage> {
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() {
-        idCardImage = File(pickedFile.path);
-        idCardController.text = pickedFile.path;
-      });
+      try {
+        final Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('id_card_images')
+            .child('${FirebaseAuth.instance.currentUser?.uid}.jpg');
+
+        final UploadTask uploadTask = storageReference.putFile(
+            File(pickedFile.path));
+        final TaskSnapshot taskSnapshot = await uploadTask;
+
+        final String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+        setState(() {
+          idCardImage = File(pickedFile.path);
+          idCardImageUrl = downloadURL;
+        });
+      } catch (e) {
+        print('Error uploading ID card image: $e');
+      }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -271,7 +330,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             // Save Button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {saveUserData();},
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,
                 shape: RoundedRectangleBorder(
