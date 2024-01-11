@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:libralink/Screens/Auth/authWrapper.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       routes: {
-        "/": (context) => LandingPage(),
+        "/": (context) => AuthWrapper(),
         MyRoutes.homeRoute: (context) => HomePage(),
         MyRoutes.issuedBooksRoute: (context) => IssuedBookPage(),
         MyRoutes.pDuesRoute: (context) => DuesScreen(),
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.profileRoute: (context) => ProfilePage(),
         MyRoutes.signinRoute: (context) => LoginScreen(),
         MyRoutes.signupRoute: (context) => SignUpScreen(),
+        MyRoutes.addbooks: (context) => Addbook(),
+        MyRoutes.returnRoute: (context) => ReIssueContent(),
       },
     );
   }

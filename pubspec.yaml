@@ -32,9 +32,14 @@ environment:
 dependencies:
   intl: ^0.18.1
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.24.2
+  firebase_dart: ^1.1.2
+  firebase_storage: ^11.5.6
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^16.3.0
   flutter_native_splash: null
+  fluttertoast: ^8.2.4
   image_picker: ^1.0.4
   lottie: ^2.6.0
   firebase_core: ^2.24.2

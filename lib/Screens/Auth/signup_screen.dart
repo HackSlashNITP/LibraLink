@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/login_screen.dart';
+import 'package:libralink/home_screen.dart';
+import 'package:libralink/profile.dart';
+import 'package:libralink/DB-models/user.dart' as model;
 import '../../routes/mapping.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,32 +17,55 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
   final cpasswordController = TextEditingController();
   final String allowedDomain = "nitp.ac.in";
-
+  bool isChecked = false;
+  //signup user
   Future<void> _signUp() async {
-    try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (userCredential.user != null && userCredential.user!.email != null) {
-        if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
-          String name = nameController.text;
+    if (passwordController.text == cpasswordController.text) {
+      try {
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        //checking the email and other signup credential
+        if (userCredential.user != null && userCredential.user!.email != null) {
+          if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage()));
+            String name = usernameController.text;
 
-          showToast("$name Signed Up Successfully");
-        } else {
-          await userCredential.user!.delete();
-          _showErrorDialog("Please use an email from $allowedDomain.");
+            showToast("$name Signed Up Successfully");
+          } else {
+            await userCredential.user!.delete();
+            _showErrorDialog("Please use an email from $allowedDomain.");
+          }
         }
+        //add user to our database
+        model.user user = model.user(
+            username: usernameController.text,
+            uid: userCredential.user!.uid,
+            name: "",
+            contact: "",
+            roll: "",
+            email: emailController.text,
+            IdURL: "",
+            profileURL: "");
+
+        await _firestore
+            .collection("user")
+            .doc(userCredential.user!.uid)
+            .set(user.tojson());
+      } catch (e) {
+        _showErrorDialog("Error during sign-up: $e");
       }
-    } catch (e) {
-      _showErrorDialog("Error during sign-up: $e");
+    } else {
+      showToast("Both passwords should be the same");
     }
   }
 
@@ -96,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
-    nameController.dispose();
+    usernameController.dispose();
     cpasswordController.dispose();
   }
 
@@ -170,117 +198,127 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Column(children: [
-                            SizedBox(
-                              width: 320,
-                              height: 52,
-                              child: TextField(
-                                controller: nameController,
-                                decoration: InputDecoration(
-                                  labelText: ' Username ',
-                                  labelStyle:
-                                      TextStyle(color: Colors.grey.shade600),
+                          SizedBox(
+                            width: 320,
+                            height: 52,
+                            child: TextField(
+                              controller: usernameController,
+                              decoration: InputDecoration(
+                                labelText: ' Username ',
+                                labelStyle:
+                                    TextStyle(color: Colors.grey.shade600),
 
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.black87),
-                                    borderRadius: BorderRadius.circular(30),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black87),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF0A043C),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF0A043C),
-                                    ),
-                                    borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                // border: OutlineInputBorder(
+                                //     borderRadius: BorderRadius.circular(30)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          SizedBox(
+                            width: 320,
+                            height: 52,
+                            child: TextField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Nitp Official email ',
+                                labelStyle:
+                                    TextStyle(color: Colors.grey.shade600),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black87),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF0A043C),
                                   ),
-                                  // border: OutlineInputBorder(
-                                  //     borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 320,
-                              height: 52,
-                              child: TextField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  labelText: 'Nitp Official email ',
-                                  labelStyle:
-                                      TextStyle(color: Colors.grey.shade600),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.black87),
-                                    borderRadius: BorderRadius.circular(30),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          SizedBox(
+                            width: 320,
+                            height: 52,
+                            child: TextField(
+                              controller: passwordController,
+                              obscureText: !isChecked,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                labelStyle:
+                                    TextStyle(color: Colors.grey.shade600),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black87),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF0A043C),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF0A043C),
-                                    ),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 320,
-                              height: 52,
-                              child: TextField(
-                                controller: passwordController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  labelStyle:
-                                      TextStyle(color: Colors.grey.shade600),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.black87),
-                                    borderRadius: BorderRadius.circular(30),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          SizedBox(
+                            width: 320,
+                            height: 52,
+                            child: TextField(
+                              controller: cpasswordController,
+                              obscureText: !isChecked,
+                              decoration: InputDecoration(
+                                labelText: ' Confirm Password ',
+                                labelStyle:
+                                    TextStyle(color: Colors.grey.shade600),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.black87),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF0A043C),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF0A043C),
-                                    ),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 320,
-                              height: 52,
-                              child: TextField(
-                                controller: cpasswordController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  labelText: ' Confirm Password ',
-                                  labelStyle:
-                                      TextStyle(color: Colors.grey.shade600),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.black87),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF0A043C),
+                          ),
+                          Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(children: [
+                                    Checkbox(
+                                      value: isChecked,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          isChecked = value!;
+                                        });
+                                      },
                                     ),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                          ]),
+                                    const Text('Show Password')
+                                  ]))),
                           SizedBox(
                             width: 320,
                             height: 52,
@@ -301,43 +339,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                             ),
                           ),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 30, right: 30),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(right: 10.0),
-                                    color: Colors.black,
-                                    height: 1.0,
+                          const SizedBox(height: 20),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Already have an account ?  ',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
+                                TextSpan(
+                                  text: 'Log In',
+                                  style: const TextStyle(
+                                    color: Color(0xFF0F172A),
+                                    fontSize: 15,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) =>
-                                                const LoginScreen()));
-                                  },
-                                  child: const Text(
-                                    'Sign in',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 10.0,
-                                    ),
-                                    color: Colors.black,
-                                    height: 1.0,
-                                  ),
+                                          builder: (_) => const LoginScreen(),
+                                        ),
+                                      );
+                                    },
                                 ),
                               ],
                             ),

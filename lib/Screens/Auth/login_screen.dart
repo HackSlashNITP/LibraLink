@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:libralink/Screens/Auth/signup_screen.dart';
+import 'package:libralink/home_screen.dart';
 import '../../routes/mapping.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final String allowedDomain = "nitp.ac.in";
+  bool isChecked = false;
 
   void showToast(String message) {
     Fluttertoast.showToast(
@@ -39,7 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       if (userCredential.user != null && userCredential.user!.email != null) {
         if (userCredential.user!.email!.endsWith("@" + allowedDomain)) {
-          Navigator.pushNamed(context, MyRoutes.homeRoute);
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomePage()));
           showToast("User Signed In Successfully");
         } else {
           _showErrorDialoge("Please use an Valid email of $allowedDomain");
@@ -198,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: TextField(
                               controller: _emailController,
                               decoration: InputDecoration(
-                                labelText: 'E-mail / Username ',
+                                labelText: 'E-mail',
                                 labelStyle: const TextStyle(
                                   color: Color(0xFF969696),
                                 ),
@@ -224,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 52,
                             child: TextField(
                               controller: _passwordController,
-                              obscureText: true,
+                              obscureText: !isChecked,
                               decoration: InputDecoration(
                                 labelText: 'Password ',
                                 labelStyle: const TextStyle(
@@ -246,7 +249,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 15,
+                          ),
+                          Align(
+                              alignment: Alignment.topLeft,
+                              child: Row(children: [
+                                Checkbox(
+                                  value: isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isChecked = value!;
+                                    });
+                                  },
+                                ),
+                                const Text('Show Password')
+                              ])),
+                          const SizedBox(
+                            height: 15,
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.75,
@@ -324,7 +343,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => const SignUpScreen(),
