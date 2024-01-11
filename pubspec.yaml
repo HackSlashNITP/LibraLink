@@ -19,7 +19,9 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
+
   sdk: ">=3.0.0 <4.0.0"
+
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,21 +30,26 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cloud_firestore: ^4.13.6
+  intl: ^0.18.1
   cupertino_icons: ^1.0.2
-  firebase_core: ^2.24.2
-  firebase_dart: ^1.1.2
-  firebase_storage: ^11.5.6
   flutter:
     sdk: flutter
   flutter_native_splash: null
   image_picker: ^1.0.4
-  intl: ^0.18.1
   lottie: ^2.6.0
-  path_provider: ^2.1.1
-  permission_handler: ^11.1.0
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
+  firebase_messaging: ^14.7.9
+  flutter_local_notifications: ^16.3.0
+  firebase_auth: ^4.15.3
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
