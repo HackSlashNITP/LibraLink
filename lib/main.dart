@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.signinRoute: (context) => LoginScreen(),
         MyRoutes.signupRoute: (context) => SignUpScreen(),
         MyRoutes.addbooks: (context) => Addbook(),
+        MyRoutes.returnRoute: (context) => ReIssueContent(),
       },
     );
   }

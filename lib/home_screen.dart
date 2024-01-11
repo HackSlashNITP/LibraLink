@@ -277,11 +277,18 @@ class _HomePageState extends State<HomePage> {
                               height: 40,
                               width: 50,
                               child: GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                      'assets/images/nibuslib.png'))),
-                          Text('K-Nimbus'),
-                          Text('Library')
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.addbooks);
+                                },
+                                child: Icon(
+                                  Icons.add_circle_outlined,
+                                  size: 42,
+                                  color: Color.fromARGB(178, 32, 39, 78),
+                                ),
+                              )),
+                          Text('Add'),
+                          Text('Books')
                         ],
                       ),
                     ],

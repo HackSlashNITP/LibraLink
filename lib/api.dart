@@ -14,6 +14,10 @@ class APIs {
     return firestore.collection('privious_books').snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserdetails() {
+    return firestore.collection('user').snapshots();
+  }
+
   // add To issue book functionlity implemented here
 
   // static Future<void> addBooks() async {
