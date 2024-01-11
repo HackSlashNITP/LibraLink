@@ -42,12 +42,10 @@ dependencies:
   fluttertoast: ^8.2.4
   image_picker: ^1.0.4
   lottie: ^2.6.0
-  firebase_core: ^2.24.2
   cloud_firestore: ^4.13.6
   firebase_messaging: ^14.7.9
-  flutter_local_notifications: ^16.3.0
+  
   firebase_auth: ^4.15.3
-  fluttertoast: ^8.2.4
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

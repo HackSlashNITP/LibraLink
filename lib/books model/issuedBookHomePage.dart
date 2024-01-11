@@ -1,11 +1,11 @@
 
 class IssuedBookModel{
-  final String bookId;
+  final int bookId;
   final String IssuedDate;
   final String ReturnDate;
   final String authorName;
   final String bookName;
-  final String activeDue;
+  final int activeDue;
   final bool isSubmitted;
 
   const IssuedBookModel({
