@@ -32,8 +32,10 @@ environment:
 dependencies:
   intl: ^0.18.1
   cupertino_icons: ^1.0.2
+  firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
   firebase_dart: ^1.1.2
+  firebase_messaging: ^14.7.10
   firebase_storage: ^11.5.6
   flutter:
     sdk: flutter
