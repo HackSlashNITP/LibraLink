@@ -90,11 +90,9 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                     height: MediaQuery.of(context).size.height * 0.001,
                   ),
                   GestureDetector(
-                    
-                onTap: () {
-                    Navigator.pushNamed(context, MyRoutes.returnRoute);
-
-                },
+                    onTap: () {
+                      Navigator.pushNamed(context, MyRoutes.returnRoute);
+                    },
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.45,
@@ -127,7 +125,7 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.90,
                     height: MediaQuery.of(context).size.height * 0.3,
-                    child: PreviousBookPage(),
+                    //child: PreviousBookPage(),
                   ),
                 ]))));
   }
