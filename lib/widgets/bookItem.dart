@@ -69,6 +69,7 @@ class buildBookItem extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height * .075,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     if(!book['isReturned'])...[
                     Text(
@@ -84,6 +85,24 @@ class buildBookItem extends StatelessWidget {
                     //   'left',
                     //   style: TextStyle(fontSize: 10, color: Color(0xffFF693D)),
                     // ),
+                    ]
+                    else...[
+                      Text(
+                    'Fine : ${book['fine_amount']}',
+                    style: TextStyle(fontSize: 15,color: Color(0xffFF693D)),
+                  ),
+                      SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                      Text(
+                    book['isPaid'] ? 'Paid' : 'Due',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: (book['isPaid']) ? Colors.green : Colors.orange,
+                    ),
+                  ),
+          
                     ],
                   ],
                 ),
