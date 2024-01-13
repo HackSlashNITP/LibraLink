@@ -6,12 +6,14 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getIssuedBooks() {
-    return firestore.collection('issued_books').snapshots();
+    // return firestore.collection('issued_books').snapshots();
+    return firestore.collection('user').doc('user').collection('Account').snapshots();
     // return firestore.collection('issued_books').docs('uuid').collection('Transaction').snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getPriviousIssuedBooks() {
-    return firestore.collection('privious_books').snapshots();
+    // return firestore.collection('privious_books').snapshots();
+    return firestore.collection('user').doc('user').collection('Account').snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserdetails() {
