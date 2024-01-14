@@ -5,7 +5,7 @@ class IssuedBookModel{
   final String ReturnDate;
   final String authorName;
   final String bookName;
-  final String activeDue;
+  final int activeDue;
   final bool isSubmitted;
 
   const IssuedBookModel({
