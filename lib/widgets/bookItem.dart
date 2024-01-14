@@ -5,6 +5,9 @@ class buildBookItem extends StatelessWidget {
   const buildBookItem({required this.book});
   @override
   Widget build(BuildContext context) {
+     DateTime issuedDate = DateTime.parse(book['issued_date']);
+    DateTime returnDate = DateTime.parse(book['returndate']);
+    int remainingDays = returnDate.difference(issuedDate).inDays;
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Padding(
@@ -49,7 +52,7 @@ class buildBookItem extends StatelessWidget {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * .05,
                               ),
-                              Text('Return : \n${book['return_Date']}',
+                              Text('Return : \n${book['returndate']}',
                                   style: TextStyle(fontSize: 10)),
                             ],
                           ),
@@ -66,19 +69,41 @@ class buildBookItem extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height * .075,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    if(!book['isReturned'])...[
                     Text(
-                      '${book['remaining_days']}',
+                      // '${book['remaining_days']}',
+                      '$remainingDays',
                       style: TextStyle(fontSize: 20, color: Color(0xffFF693D)),
                     ),
                     Text(
                       'days',
                       style: TextStyle(fontSize: 12, color: Color(0xffFF693D)),
                     ),
-                    Text(
-                      'left',
-                      style: TextStyle(fontSize: 10, color: Color(0xffFF693D)),
+                    // Text(
+                    //   'left',
+                    //   style: TextStyle(fontSize: 10, color: Color(0xffFF693D)),
+                    // ),
+                    ]
+                    else...[
+                      Text(
+                    'Fine : ${book['fine_amount']}',
+                    style: TextStyle(fontSize: 15,color: Color(0xffFF693D)),
+                  ),
+                      SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                      Text(
+                    book['isPaid'] ? 'Paid' : 'Due',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: (book['isPaid']) ? Colors.green : Colors.orange,
                     ),
+                  ),
+          
+                    ],
                   ],
                 ),
               ),
