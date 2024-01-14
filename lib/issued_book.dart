@@ -125,7 +125,7 @@ class _IssuedBookPageState extends State<IssuedBookPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.90,
                     height: MediaQuery.of(context).size.height * 0.3,
-                    //child: PreviousBookPage(),
+                    child: PreviousBookPage(),
                   ),
                 ]))));
   }

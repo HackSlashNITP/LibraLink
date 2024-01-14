@@ -1,17 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:libralink/books%20model/issuedbook_model.dart';
 import 'package:libralink/books%20model/privious_issuedbook_model.dart';
 
 class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static FirebaseAuth _auth = FirebaseAuth.instance;
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getIssuedBooks() {
-    return firestore.collection('issued_books').snapshots();
+    // return firestore.collection('issued_books').snapshots();
+    User? CurrentUser= _auth.currentUser!;
+
+
+    return firestore.collection('user').doc(CurrentUser.uid).collection('Account').snapshots();
     // return firestore.collection('issued_books').docs('uuid').collection('Transaction').snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getPriviousIssuedBooks() {
-    return firestore.collection('privious_books').snapshots();
+    // return firestore.collection('privious_books').snapshots();
+    return firestore.collection('user').doc('user').collection('Account').snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getUserdetails() {
