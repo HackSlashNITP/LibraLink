@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:libralink/DB-models/account.dart';
 import 'package:libralink/books%20model/issuedBookHomePage.dart';
 import 'package:libralink/routes/mapping.dart';
 import 'package:libralink/widgets/homepagebook.dart';
-
+import 'package:libralink/profile.dart' as profile;
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -23,8 +24,6 @@ class _HomePageState extends State<HomePage> {
     User? CurrentUser= _auth.currentUser!;
   
 
-  final Stream<DocumentSnapshot> _documentStream =
-      FirebaseFirestore.instance.collection('user').doc('user').snapshots();
 
   // late Stream<Map<String, dynamic>> documentStream =
   //     getDocumentStream("user", "user");
@@ -50,6 +49,11 @@ class _HomePageState extends State<HomePage> {
     Size screenSize = MediaQuery.of(context).size;
     final Stream<QuerySnapshot> userStream =
       FirebaseFirestore.instance.collection("user").doc(CurrentUser?.uid).collection('Account').snapshots();
+    
+  final Stream<DocumentSnapshot> _documentStream =
+      FirebaseFirestore.instance.collection('user').doc(CurrentUser?.uid).snapshots();
+      
+
     return StreamBuilder<QuerySnapshot>(
         stream: userStream,
         builder: (BuildContext context,
@@ -82,6 +86,9 @@ class _HomePageState extends State<HomePage> {
           // print(issuedBooksList);
           //** finally created an object list of IssuedBooksModel which i pass to
           //    widget  called MyListViewBuilder*/
+          // Map<String, dynamic> userdata={};
+          
+          
           final List storedocs=[];
           snapshot.data!.docs.map((DocumentSnapshot document){
             Map a=document.data() as Map<String,dynamic>;
@@ -92,20 +99,20 @@ class _HomePageState extends State<HomePage> {
 
         // print(storedocs[0]['book_id']);
 
-          List<IssuedBookModel> booksinUser = [];
+          List<Account> booksinUser = [];
           for (int j = 0; j < storedocs.length; j++) {
-            booksinUser.add(IssuedBookModel(
+            booksinUser.add(Account(
               bookId: storedocs[j]['book_id'],
-              IssuedDate: storedocs[j]['issued_date'],
-              ReturnDate: storedocs[j]['returndate'] ,
-              isSubmitted: storedocs[j]['isReturned'],
-              bookName: storedocs[j]['title'] ,
-              authorName: storedocs[j]['author'] ,
-              activeDue: storedocs[j]['fine_amount']  ,
+              issuedDate: storedocs[j]['issued_date'],
+              returndate: storedocs[j]['returndate'] ,
+              isReturned: storedocs[j]['isReturned'],
+              title: storedocs[j]['title'] ,
+              author: storedocs[j]['author'] ,
+              fineAmount: storedocs[j]['fine_amount']  ,
+              isPaid:storedocs[j]['isPaid']
             ));
           }
-          // print("Hello WOrld");
-          print(booksinUser);
+
           return Scaffold(
               body: Container(
             width: screenSize.width,
@@ -166,6 +173,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   child: Text(
                     "Divyansh Gupta",
+                    // userdataList[0]["username"],
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w400,
@@ -293,11 +301,18 @@ class _HomePageState extends State<HomePage> {
                               height: 40,
                               width: 50,
                               child: GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                      'assets/images/nibuslib.png'))),
-                          Text('K-Nimbus'),
-                          Text('Library')
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, MyRoutes.addbooks);
+                                },
+                                child: Icon(
+                                  Icons.add_circle_outlined,
+                                  size: 42,
+                                  color: Color.fromARGB(178, 32, 39, 78),
+                                ),
+                              )),
+                          Text('Add'),
+                          Text('Books')
                         ],
                       ),
                     ],

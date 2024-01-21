@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libralink/api.dart';
 import 'package:libralink/api.dart';
-import 'package:libralink/books%20model/issuedBookHomePage.dart';
-import 'package:libralink/books%20model/homePage.dart';
+
+import 'package:libralink/DB-models/account.dart';
 import 'package:libralink/duesScreen.dart';
 
 class MyListViewBuilder extends StatefulWidget {
-  final List<IssuedBookModel> booklist;
+  final List<Account> booklist;
   MyListViewBuilder({Key? key, required this.booklist}) : super(key: key);
 
   @override
@@ -30,10 +30,10 @@ class _MyListViewBuilderState extends State<MyListViewBuilder> {
             padding: EdgeInsets.all(0),
             itemCount: widget.booklist.length,
             itemBuilder: (context, index) {
-              if (widget.booklist[index].isSubmitted == false)
+              if (widget.booklist[index].isReturned == false)
                 return MyListItem(
-                    title: widget.booklist[index].bookName,
-                    date: widget.booklist[index].ReturnDate,
+                    title: widget.booklist[index].title,
+                    date: widget.booklist[index].returndate,
                     imagePath: 'assets/images/Group (1).png');
               else
                 return Container();
