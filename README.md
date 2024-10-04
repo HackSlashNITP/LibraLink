@@ -1,3 +1,4 @@
+![hacktoberfest](https://img.shields.io/badge/hacktoberfest-green?style=flat)
 # LibraLink - Revolutionizing the Library Experience
 
 In an era of technological advancements, the **LibraLink** project aims to revolutionize the library experience at NIT Patna. This innovative application seeks to bridge the gap between traditional library services and modern digital convenience. By introducing a phased approach, the project endeavors to provide users with an efficient solution for book tracking, due date management, and resource access. This README outlines the motivation, objectives, and scope of the project, offering insights into how **LibraLink** can reshape the way our library operates and caters to users' needs.
