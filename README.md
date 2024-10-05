@@ -46,6 +46,11 @@ In Phase 2 (future), we plan to take our library experience to the next level:
 
 The project's primary focus is to enhance user interactions, optimize book management, and create a seamless bridge between traditional library services and cutting-edge technology.
 
+
+## Tech stack
+- Flutter
+- Firebase
+
 ## Further Resources
 
 - [Project Report](https://docs.google.com/document/d/1uUZW3FmxIXVCHnYtjNlyq6qj5n0Owtyw7LWUReKvxFw/edit?usp=sharing): Explore our project's wiki for detailed documentation.
